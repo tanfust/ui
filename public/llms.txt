@@ -1,0 +1,19 @@
+# Tanfust UI
+
+> Essential components, hooks and flows for everyday sites and apps, distributed as a shadcn-compatible registry. Items are installed as source into the consumer's project.
+
+## Install
+
+```bash
+npx shadcn@latest registry add @tanfust=https://ui.tanfust.com/r/{name}.json
+npx shadcn@latest add @tanfust/<item>
+npx shadcn@latest init https://ui.tanfust.com/r/tanfust.json   # new project with the Tanfust design system
+npx shadcn@latest mcp init --client claude          # expose the registry to an MCP client
+```
+
+Catalog (machine-readable): https://ui.tanfust.com/r/registry.json
+Item payloads: https://ui.tanfust.com/r/<item>.json
+
+## Items (0)
+
+_No items published yet._

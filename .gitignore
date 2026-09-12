@@ -1,0 +1,25 @@
+node_modules
+.DS_Store
+dist
+dist-ssr
+*.local
+.env*
+!.env.example
+.tanstack
+.wrangler
+.output
+.vinxi
+__unconfig*
+todos.json
+
+# typescript
+*.tsbuildinfo
+
+# generated at build time by scripts/build-registry.mjs
+/src/__registry__
+
+# smoke-test consumer apps (scripts/smoke-install.sh)
+/.smoke
+
+# pnpm store created when pnpm runs without a global store
+/.pnpm-store

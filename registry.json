@@ -1,0 +1,12 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry.json",
+  "name": "tanfust",
+  "homepage": "https://ui.tanfust.com",
+  "include": [
+    "src/registry/tanfust/foundations/registry.json",
+    "src/registry/tanfust/hooks/registry.json",
+    "src/registry/tanfust/lib/registry.json",
+    "src/registry/tanfust/flows/registry.json",
+    "src/registry/tanfust/examples/registry.json"
+  ]
+}

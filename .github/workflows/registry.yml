@@ -1,0 +1,59 @@
+name: registry
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: validate · build · lint · typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - name: Registry output is committed and up to date
+        run: pnpm registry:check
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm build
+        env:
+          VITE_BASE_URL: https://ui.tanfust.com
+      - uses: actions/upload-artifact@v4
+        with:
+          name: start-build
+          path: |
+            .output
+            public/r
+          retention-days: 1
+          include-hidden-files: true
+
+  smoke:
+    name: smoke install (${{ matrix.base }})
+    needs: build
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        base: [base, radix]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v4
+        with:
+          name: start-build
+      - run: pnpm smoke ${{ matrix.base }}
