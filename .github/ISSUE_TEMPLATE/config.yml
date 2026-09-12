@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Docs & install guide
+    url: https://ui.tanfust.com/docs
+    about: How to add the @tanfust namespace and install items.
+  - name: shadcn CLI issues
+    url: https://github.com/shadcn-ui/ui/issues
+    about: Problems with the CLI itself rather than a Tanfust item.
+  - name: Security
+    url: https://github.com/tanfust/ui/security/advisories/new
+    about: Report a vulnerability privately.

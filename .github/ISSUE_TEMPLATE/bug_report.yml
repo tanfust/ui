@@ -1,0 +1,37 @@
+name: Bug report
+description: An item installs wrong, renders wrong, or the docs site misbehaves.
+labels: [bug]
+body:
+  - type: input
+    id: item
+    attributes:
+      label: Item
+      description: Which registry item (or docs page) is affected?
+      placeholder: "@tanfust/use-stepper"
+    validations:
+      required: true
+  - type: textarea
+    id: command
+    attributes:
+      label: Command and output
+      description: The exact shadcn command you ran and its output.
+      render: shell
+    validations:
+      required: true
+  - type: textarea
+    id: components-json
+    attributes:
+      label: components.json
+      description: Your project's `components.json` (remove anything private).
+      render: json
+  - type: input
+    id: versions
+    attributes:
+      label: Versions
+      placeholder: "shadcn 4.21.0 · Next 16.3 / TanStack Start 1.168 / Vite 8 · Radix or Base UI"
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true

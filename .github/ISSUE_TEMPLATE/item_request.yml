@@ -1,0 +1,37 @@
+name: Item request
+description: Propose a hook, utility, or flow that most everyday sites and apps need.
+labels: [item]
+body:
+  - type: input
+    id: name
+    attributes:
+      label: Proposed name
+      placeholder: "use-local-storage"
+    validations:
+      required: true
+  - type: dropdown
+    id: category
+    attributes:
+      label: Category
+      options: [hooks, lib, flows, foundations]
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What everyday problem does it solve?
+      description: The registry stays small on purpose — explain why most projects would reach for this.
+    validations:
+      required: true
+  - type: textarea
+    id: api
+    attributes:
+      label: Sketch of the API
+      render: ts
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Fit
+      options:
+        - label: It composes shadcn items and does not import Radix or Base UI directly.
+        - label: It can ship with a self-contained demo.
