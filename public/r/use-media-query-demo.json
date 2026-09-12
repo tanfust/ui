@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-media-query-demo",
+  "title": "use-media-query demo",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Live results for four common media queries.",
+  "registryDependencies": [
+    "@tanfust/use-media-query"
+  ],
+  "files": [
+    {
+      "path": "src/registry/tanfust/examples/use-media-query-demo.tsx",
+      "content": "import { useMediaQuery } from \"@/registry/tanfust/hooks/use-media-query\"\n\nconst queries = [\n  \"(min-width: 768px)\",\n  \"(prefers-color-scheme: dark)\",\n  \"(prefers-reduced-motion: reduce)\",\n  \"(hover: hover)\",\n] as const\n\nexport default function UseMediaQueryDemo() {\n  return (\n    <ul className=\"flex flex-col gap-2 font-mono text-xs\">\n      {queries.map((q) => (\n        <Row key={q} query={q} />\n      ))}\n    </ul>\n  )\n}\n\nfunction Row({ query }: { query: string }) {\n  const matches = useMediaQuery(query)\n  return (\n    <li className=\"flex items-center justify-between gap-6 border-b border-border pb-2\">\n      <code>{query}</code>\n      <span className={matches ? \"\" : \"text-muted-foreground\"}>{matches ? \"[ true ]\" : \"[ false ]\"}</span>\n    </li>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "examples"
+  ],
+  "type": "registry:example"
+}

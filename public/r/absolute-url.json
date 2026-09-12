@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "absolute-url",
+  "title": "Absolute Url",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Build absolute URLs for the current deployment from a path, detecting the origin from NEXT_PUBLIC_APP_URL, VITE_APP_URL, APP_URL, VERCEL_URL or window.location. For OG images, emails and webhooks.",
+  "files": [
+    {
+      "path": "src/registry/tanfust/lib/absolute-url.ts",
+      "content": "/**\n * Turn a path into an absolute URL for the current deployment. Reads the\n * origin from the first defined of: an explicit `base`, `NEXT_PUBLIC_APP_URL`,\n * `VITE_APP_URL`, `APP_URL`, Vercel's `VERCEL_URL`, then falls back to\n * `http://localhost:3000`. Use it for Open Graph images, emails, webhooks.\n *\n * @example\n * absoluteUrl(\"/og.png\")            // \"https://app.example.com/og.png\"\n * absoluteUrl(\"/x\", \"https://a.b\") // \"https://a.b/x\"\n */\nexport function absoluteUrl(path = \"/\", base?: string) {\n  const origin = (base ?? detectOrigin()).replace(/\\/$/, \"\")\n  return new URL(path, origin + \"/\").toString()\n}\n\nfunction detectOrigin() {\n  const env = readEnv()\n  const explicit = env.NEXT_PUBLIC_APP_URL ?? env.VITE_APP_URL ?? env.APP_URL\n  if (explicit) return explicit.startsWith(\"http\") ? explicit : `https://${explicit}`\n  if (env.VERCEL_URL) return `https://${env.VERCEL_URL}`\n  if (typeof window !== \"undefined\" && window.location) return window.location.origin\n  return \"http://localhost:3000\"\n}\n\nfunction readEnv(): Record<string, string | undefined> {\n  // Vite exposes import.meta.env; Node/Next expose process.env. Both are optional here.\n  const fromImportMeta = (() => {\n    try {\n      return (import.meta as unknown as { env?: Record<string, string | undefined> }).env ?? {}\n    } catch {\n      return {}\n    }\n  })()\n  const fromProcess = typeof process !== \"undefined\" ? process.env : {}\n  return { ...fromProcess, ...fromImportMeta }\n}\n",
+      "type": "registry:lib"
+    }
+  ],
+  "meta": {
+    "tier": "free",
+    "version": "1.0.0"
+  },
+  "categories": [
+    "lib"
+  ],
+  "type": "registry:lib"
+}

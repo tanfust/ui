@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "format-date-demo",
+  "title": "format-date demo",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "formatDate presets in several locales, plus formatRelative.",
+  "registryDependencies": [
+    "@tanfust/format-date"
+  ],
+  "files": [
+    {
+      "path": "src/registry/tanfust/examples/format-date-demo.tsx",
+      "content": "import { formatDate, formatRelative } from \"@/registry/tanfust/lib/format-date\"\n\nconst date = new Date(\"2026-09-12T14:05:00Z\")\nconst now = new Date(\"2026-09-14T09:00:00Z\")\n\nexport default function FormatDateDemo() {\n  const rows: Array<[string, string]> = [\n    ['formatDate(date)', formatDate(date, { timeZone: \"UTC\" })],\n    ['formatDate(date, { preset: \"long\" })', formatDate(date, { preset: \"long\", timeZone: \"UTC\" })],\n    ['formatDate(date, { preset: \"datetime\" })', formatDate(date, { preset: \"datetime\", timeZone: \"UTC\" })],\n    ['formatDate(date, { locale: \"fr-FR\" })', formatDate(date, { locale: \"fr-FR\", timeZone: \"UTC\" })],\n    ['formatDate(date, { locale: \"ar-TN\" })', formatDate(date, { locale: \"ar-TN\", timeZone: \"UTC\" })],\n    [\"formatRelative(date, { now })\", formatRelative(date, { now })],\n  ]\n  return <Table rows={rows} />\n}\n\nfunction Table({ rows }: { rows: Array<[string, string]> }) {\n  return (\n    <dl className=\"grid w-full max-w-lg grid-cols-1 gap-y-2 font-mono text-xs sm:grid-cols-[1fr_auto] sm:gap-x-6\">\n      {rows.map(([code, out]) => (\n        <div className=\"contents\" key={code}>\n          <dt className=\"truncate text-muted-foreground\">{code}</dt>\n          <dd className=\"sm:text-right\">{out}</dd>\n        </div>\n      ))}\n    </dl>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "examples"
+  ],
+  "type": "registry:example"
+}

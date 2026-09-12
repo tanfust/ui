@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-copy-to-clipboard",
+  "title": "useCopyToClipboard",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Copy text to the clipboard and get a short-lived status (idle, copied, error) to drive a Copy button label. Resets automatically.",
+  "files": [
+    {
+      "path": "src/registry/tanfust/hooks/use-copy-to-clipboard.ts",
+      "content": "import * as React from \"react\"\n\ntype CopyState = \"idle\" | \"copied\" | \"error\"\n\n/**\n * Copy text to the clipboard and expose a short-lived status for the UI\n * (\"Copied\" for `resetAfter` ms, then back to idle).\n *\n * @example\n * const { copy, state } = useCopyToClipboard()\n * <button onClick={() => copy(command)}>{state === \"copied\" ? \"Copied\" : \"Copy\"}</button>\n */\nexport function useCopyToClipboard({ resetAfter = 1500 }: { resetAfter?: number } = {}) {\n  const [state, setState] = React.useState<CopyState>(\"idle\")\n  const timer = React.useRef<number | undefined>(undefined)\n\n  React.useEffect(() => () => window.clearTimeout(timer.current), [])\n\n  const copy = React.useCallback(\n    async (text: string) => {\n      try {\n        if (!navigator.clipboard) throw new Error(\"Clipboard API unavailable\")\n        await navigator.clipboard.writeText(text)\n        setState(\"copied\")\n      } catch {\n        setState(\"error\")\n      }\n      window.clearTimeout(timer.current)\n      timer.current = window.setTimeout(() => setState(\"idle\"), resetAfter)\n    },\n    [resetAfter]\n  )\n\n  return { copy, state, copied: state === \"copied\" }\n}\n",
+      "type": "registry:hook"
+    }
+  ],
+  "meta": {
+    "tier": "free",
+    "version": "1.0.0"
+  },
+  "categories": [
+    "hooks"
+  ],
+  "type": "registry:hook"
+}

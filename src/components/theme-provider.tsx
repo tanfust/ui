@@ -1,8 +1,10 @@
-"use client"
-
-import { ThemeProvider as NextThemesProvider } from "next-themes"
+import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes"
 import * as React from "react"
 
+/**
+ * Same provider as tanfust.agency: class attribute, light by default, system
+ * aware, and a `d` hotkey to flip the theme.
+ */
 export function ThemeProvider({
   children,
   ...props
@@ -10,12 +12,41 @@ export function ThemeProvider({
   return (
     <NextThemesProvider
       attribute="class"
-      defaultTheme="system"
+      defaultTheme="light"
       enableSystem
       disableTransitionOnChange
       {...props}
     >
+      <ThemeHotkey />
       {children}
     </NextThemesProvider>
   )
+}
+
+function isTypingTarget(target: EventTarget | null) {
+  if (!(target instanceof HTMLElement)) return false
+  return (
+    target.isContentEditable ||
+    target.tagName === "INPUT" ||
+    target.tagName === "TEXTAREA" ||
+    target.tagName === "SELECT"
+  )
+}
+
+function ThemeHotkey() {
+  const { resolvedTheme, setTheme } = useTheme()
+
+  React.useEffect(() => {
+    function onKeyDown(event: KeyboardEvent) {
+      if (event.defaultPrevented || event.repeat) return
+      if (event.metaKey || event.ctrlKey || event.altKey) return
+      if (typeof event.key !== "string" || event.key.toLowerCase() !== "d") return
+      if (isTypingTarget(event.target)) return
+      setTheme(resolvedTheme === "dark" ? "light" : "dark")
+    }
+    window.addEventListener("keydown", onKeyDown)
+    return () => window.removeEventListener("keydown", onKeyDown)
+  }, [resolvedTheme, setTheme])
+
+  return null
 }

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-mobile-demo",
+  "title": "use-mobile demo",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Shows whether the viewport is below 768px.",
+  "registryDependencies": [
+    "@tanfust/use-mobile"
+  ],
+  "files": [
+    {
+      "path": "src/registry/tanfust/examples/use-mobile-demo.tsx",
+      "content": "import { useIsMobile } from \"@/registry/tanfust/hooks/use-mobile\"\n\nexport default function UseMobileDemo() {\n  const isMobile = useIsMobile()\n  return (\n    <p className=\"font-mono text-xs\">\n      Viewport is <strong>{isMobile ? \"mobile\" : \"desktop\"}</strong>\n      <span className=\"text-muted-foreground\"> — resize the window to see it flip at 768px.</span>\n    </p>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "examples"
+  ],
+  "type": "registry:example"
+}

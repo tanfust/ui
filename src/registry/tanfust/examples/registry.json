@@ -1,4 +1,240 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "items": []
+  "items": [
+    {
+      "name": "tanfust-demo",
+      "type": "registry:example",
+      "title": "tanfust demo",
+      "description": "Type specimen and token swatches for the Tanfust base.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "files": [
+        {
+          "path": "tanfust-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "theme-tanfust-demo",
+      "type": "registry:example",
+      "title": "theme-tanfust demo",
+      "description": "Token swatches for the Tanfust theme.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "files": [
+        {
+          "path": "tanfust-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "font-geist-sans-demo",
+      "type": "registry:example",
+      "title": "font-geist-sans demo",
+      "description": "Geist Sans and Geist Mono specimens.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "files": [
+        {
+          "path": "font-geist-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "font-geist-mono-demo",
+      "type": "registry:example",
+      "title": "font-geist-mono demo",
+      "description": "Geist Sans and Geist Mono specimens.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "files": [
+        {
+          "path": "font-geist-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "use-mobile-demo",
+      "type": "registry:example",
+      "title": "use-mobile demo",
+      "description": "Shows whether the viewport is below 768px.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "registryDependencies": [
+        "@tanfust/use-mobile"
+      ],
+      "files": [
+        {
+          "path": "use-mobile-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "use-media-query-demo",
+      "type": "registry:example",
+      "title": "use-media-query demo",
+      "description": "Live results for four common media queries.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "registryDependencies": [
+        "@tanfust/use-media-query"
+      ],
+      "files": [
+        {
+          "path": "use-media-query-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "use-debounce-demo",
+      "type": "registry:example",
+      "title": "use-debounce demo",
+      "description": "A search input showing the live and debounced value side by side.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "registryDependencies": [
+        "@tanfust/use-debounce"
+      ],
+      "files": [
+        {
+          "path": "use-debounce-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "use-copy-to-clipboard-demo",
+      "type": "registry:example",
+      "title": "use-copy-to-clipboard demo",
+      "description": "A copy button with a self-resetting Copied state.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "registryDependencies": [
+        "@tanfust/use-copy-to-clipboard"
+      ],
+      "files": [
+        {
+          "path": "use-copy-to-clipboard-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "use-stepper-demo",
+      "type": "registry:example",
+      "title": "use-stepper demo",
+      "description": "A four-step wizard with an optional step, progress bar and reset.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "registryDependencies": [
+        "@tanfust/use-stepper"
+      ],
+      "files": [
+        {
+          "path": "use-stepper-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "format-date-demo",
+      "type": "registry:example",
+      "title": "format-date demo",
+      "description": "formatDate presets in several locales, plus formatRelative.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "registryDependencies": [
+        "@tanfust/format-date"
+      ],
+      "files": [
+        {
+          "path": "format-date-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "format-currency-demo",
+      "type": "registry:example",
+      "title": "format-currency demo",
+      "description": "formatCurrency across currencies and locales, plus formatCompact.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "registryDependencies": [
+        "@tanfust/format-currency"
+      ],
+      "files": [
+        {
+          "path": "format-currency-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "absolute-url-demo",
+      "type": "registry:example",
+      "title": "absolute-url demo",
+      "description": "absoluteUrl with an explicit base and with origin detection.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "registryDependencies": [
+        "@tanfust/absolute-url"
+      ],
+      "files": [
+        {
+          "path": "absolute-url-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    },
+    {
+      "name": "slugify-demo",
+      "type": "registry:example",
+      "title": "slugify demo",
+      "description": "Live slugify with maxLength and uniqueSlug.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "examples"
+      ],
+      "registryDependencies": [
+        "@tanfust/slugify"
+      ],
+      "files": [
+        {
+          "path": "slugify-demo.tsx",
+          "type": "registry:component"
+        }
+      ]
+    }
+  ]
 }

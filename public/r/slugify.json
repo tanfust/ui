@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "slugify",
+  "title": "Slugify",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "URL-safe slugs: strips accents, lowercases, collapses separators, optional max length; uniqueSlug appends -2, -3 against a taken set.",
+  "files": [
+    {
+      "path": "src/registry/tanfust/lib/slugify.ts",
+      "content": "/**\n * URL-safe slugs. Strips accents (é → e), lowercases, collapses anything that\n * is not a letter or digit into single hyphens, and trims them.\n *\n * @example\n * slugify(\"Hello, World!\")        // \"hello-world\"\n * slugify(\"Crème brûlée  2026\")   // \"creme-brulee-2026\"\n * slugify(\"Tanfust UI\", { separator: \"_\" }) // \"tanfust_ui\"\n */\nexport function slugify(input: string, { separator = \"-\", maxLength }: { separator?: string; maxLength?: number } = {}) {\n  let slug = input\n    .normalize(\"NFKD\")\n    .replace(/[̀-ͯ]/g, \"\")\n    .toLowerCase()\n    .replace(/[^a-z0-9]+/g, separator)\n    .replace(new RegExp(`^${escape(separator)}+|${escape(separator)}+$`, \"g\"), \"\")\n\n  if (maxLength && slug.length > maxLength) {\n    slug = slug.slice(0, maxLength).replace(new RegExp(`${escape(separator)}+$`), \"\")\n  }\n  return slug\n}\n\n/** Make `slug` unique against `taken` by appending -2, -3, … */\nexport function uniqueSlug(slug: string, taken: Iterable<string>, separator = \"-\") {\n  const set = new Set(taken)\n  if (!set.has(slug)) return slug\n  let n = 2\n  while (set.has(`${slug}${separator}${n}`)) n++\n  return `${slug}${separator}${n}`\n}\n\nfunction escape(s: string) {\n  return s.replace(/[.*+?^${}()|[\\]\\\\]/g, \"\\\\$&\")\n}\n",
+      "type": "registry:lib"
+    }
+  ],
+  "meta": {
+    "tier": "free",
+    "version": "1.0.0"
+  },
+  "categories": [
+    "lib"
+  ],
+  "type": "registry:lib"
+}

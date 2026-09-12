@@ -1,7 +1,8 @@
-import { HeadContent, Scripts, createRootRoute } from "@tanstack/react-router"
+import { HeadContent, Outlet, Scripts, createRootRoute } from "@tanstack/react-router"
 import { TanStackRouterDevtoolsPanel } from "@tanstack/react-router-devtools"
 import { TanStackDevtools } from "@tanstack/react-devtools"
 
+import { Shell } from "@/components/site/shell"
 import { ThemeProvider } from "@/components/theme-provider"
 import { siteConfig } from "@/config/site"
 
@@ -24,17 +25,39 @@ export const Route = createRootRoute({
     ],
     links: [
       { rel: "stylesheet", href: appCss },
-      { rel: "icon", href: "/favicon.ico" },
+      { rel: "icon", href: "/favicon.ico", sizes: "32x32" },
+      { rel: "icon", href: "/icon.png", type: "image/png" },
+      { rel: "apple-touch-icon", href: "/apple-icon.png" },
     ],
   }),
-  notFoundComponent: () => (
-    <main className="mx-auto max-w-3xl px-6 py-16 font-mono text-sm">
-      <h1 className="text-2xl font-semibold tracking-tight">[404]</h1>
-      <p className="mt-2 text-muted-foreground">The requested page could not be found.</p>
-    </main>
-  ),
+  component: RootComponent,
+  notFoundComponent: NotFound,
   shellComponent: RootDocument,
 })
+
+function RootComponent() {
+  return (
+    <Shell>
+      <Outlet />
+    </Shell>
+  )
+}
+
+function NotFound() {
+  return (
+    <section className="px-6 py-20 font-mono">
+      <p className="text-[10px] uppercase tracking-wider">[404]</p>
+      <h1 className="mt-4 text-3xl font-black uppercase tracking-[-0.04em] sm:text-5xl">
+        Not found.
+      </h1>
+      <p className="mt-6 text-xs uppercase tracking-wider">
+        <a className="underline underline-offset-4 hover:no-underline" href="/">
+          [ Back to the registry → ]
+        </a>
+      </p>
+    </section>
+  )
+}
 
 function RootDocument({ children }: { children: React.ReactNode }) {
   return (
@@ -42,7 +65,7 @@ function RootDocument({ children }: { children: React.ReactNode }) {
       <head>
         <HeadContent />
       </head>
-      <body className="min-h-svh">
+      <body>
         <ThemeProvider>{children}</ThemeProvider>
         {import.meta.env.DEV ? (
           <TanStackDevtools

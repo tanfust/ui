@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-mobile",
+  "title": "useIsMobile",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Boolean hook that is true below the md breakpoint (768px by default). Safe for SSR: false on the server and first render, then live via matchMedia.",
+  "files": [
+    {
+      "path": "src/registry/tanfust/hooks/use-mobile.ts",
+      "content": "import * as React from \"react\"\n\nconst MOBILE_BREAKPOINT = 768\n\n/**\n * `true` below the `md` breakpoint (768px). Always `false` on the server and\n * during the first client render, so SSR output never depends on viewport.\n */\nexport function useIsMobile(breakpoint: number = MOBILE_BREAKPOINT) {\n  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)\n\n  React.useEffect(() => {\n    const mql = window.matchMedia(`(max-width: ${breakpoint - 1}px)`)\n    const onChange = () => setIsMobile(window.innerWidth < breakpoint)\n    mql.addEventListener(\"change\", onChange)\n    setIsMobile(window.innerWidth < breakpoint)\n    return () => mql.removeEventListener(\"change\", onChange)\n  }, [breakpoint])\n\n  return !!isMobile\n}\n",
+      "type": "registry:hook"
+    }
+  ],
+  "meta": {
+    "tier": "free",
+    "version": "1.0.0"
+  },
+  "categories": [
+    "hooks"
+  ],
+  "type": "registry:hook"
+}

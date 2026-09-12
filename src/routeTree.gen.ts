@@ -10,33 +10,60 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as DocsRouteImport } from './routes/docs'
+import { Route as DocsIndexRouteImport } from './routes/docs.index'
+import { Route as DocsCategoryItemRouteImport } from './routes/docs.$category.$item'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DocsRoute = DocsRouteImport.update({
+  id: '/docs',
+  path: '/docs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DocsIndexRoute = DocsIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => DocsRoute,
+} as any)
+const DocsCategoryItemRoute = DocsCategoryItemRouteImport.update({
+  id: '/$category/$item',
+  path: '/$category/$item',
+  getParentRoute: () => DocsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/docs': typeof DocsRouteWithChildren
+  '/docs/': typeof DocsIndexRoute
+  '/docs/$category/$item': typeof DocsCategoryItemRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/docs': typeof DocsIndexRoute
+  '/docs/$category/$item': typeof DocsCategoryItemRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/docs': typeof DocsRouteWithChildren
+  '/docs/': typeof DocsIndexRoute
+  '/docs/$category/$item': typeof DocsCategoryItemRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/docs' | '/docs/' | '/docs/$category/$item'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/docs' | '/docs/$category/$item'
+  id: '__root__' | '/' | '/docs' | '/docs/' | '/docs/$category/$item'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DocsRoute: typeof DocsRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +75,45 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/docs': {
+      id: '/docs'
+      path: '/docs'
+      fullPath: '/docs'
+      preLoaderRoute: typeof DocsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/docs/': {
+      id: '/docs/'
+      path: '/'
+      fullPath: '/docs/'
+      preLoaderRoute: typeof DocsIndexRouteImport
+      parentRoute: typeof DocsRoute
+    }
+    '/docs/$category/$item': {
+      id: '/docs/$category/$item'
+      path: '/$category/$item'
+      fullPath: '/docs/$category/$item'
+      preLoaderRoute: typeof DocsCategoryItemRouteImport
+      parentRoute: typeof DocsRoute
+    }
   }
 }
 
+interface DocsRouteChildren {
+  DocsIndexRoute: typeof DocsIndexRoute
+  DocsCategoryItemRoute: typeof DocsCategoryItemRoute
+}
+
+const DocsRouteChildren: DocsRouteChildren = {
+  DocsIndexRoute: DocsIndexRoute,
+  DocsCategoryItemRoute: DocsCategoryItemRoute,
+}
+
+const DocsRouteWithChildren = DocsRoute._addFileChildren(DocsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DocsRoute: DocsRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

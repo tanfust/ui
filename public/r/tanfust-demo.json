@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "tanfust-demo",
+  "title": "tanfust demo",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Type specimen and token swatches for the Tanfust base.",
+  "files": [
+    {
+      "path": "src/registry/tanfust/examples/tanfust-demo.tsx",
+      "content": "const swatches = [\n  [\"background\", \"bg-background\"],\n  [\"foreground\", \"bg-foreground\"],\n  [\"primary\", \"bg-primary\"],\n  [\"secondary\", \"bg-secondary\"],\n  [\"muted\", \"bg-muted\"],\n  [\"accent\", \"bg-accent\"],\n  [\"destructive\", \"bg-destructive\"],\n  [\"border\", \"bg-border\"],\n] as const\n\n/** Type specimen + swatches for the `tanfust` base and `theme-tanfust`. */\nexport default function TanfustDemo() {\n  return (\n    <div className=\"flex w-full flex-col gap-8\">\n      <div className=\"flex flex-col gap-3\">\n        <h3 className=\"font-heading text-[10px] uppercase tracking-wider text-muted-foreground\">Type</h3>\n        <p className=\"text-4xl font-black uppercase leading-[0.92] tracking-[-0.04em]\">Less, but better.</p>\n        <p className=\"max-w-prose text-sm\">\n          Body text is Geist Sans. Labels, headings and anything tabular are Geist Mono, set small\n          and wide.\n        </p>\n        <p className=\"font-mono text-xs uppercase tracking-wider\">&gt; Mono label · 0.625rem radius · zinc</p>\n      </div>\n\n      <div className=\"flex flex-col gap-3\">\n        <h3 className=\"font-mono text-[10px] uppercase tracking-wider text-muted-foreground\">Tokens</h3>\n        <ul className=\"grid grid-cols-4 gap-2 sm:grid-cols-8\">\n          {swatches.map(([name, cls]) => (\n            <li className=\"flex flex-col gap-1 font-mono text-[10px]\" key={name}>\n              <span className={`h-10 rounded-md border border-border ${cls}`} />\n              <span className=\"truncate text-muted-foreground\">{name}</span>\n            </li>\n          ))}\n        </ul>\n      </div>\n    </div>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "examples"
+  ],
+  "type": "registry:example"
+}

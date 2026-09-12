@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-debounce-demo",
+  "title": "use-debounce demo",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "A search input showing the live and debounced value side by side.",
+  "registryDependencies": [
+    "@tanfust/use-debounce"
+  ],
+  "files": [
+    {
+      "path": "src/registry/tanfust/examples/use-debounce-demo.tsx",
+      "content": "import * as React from \"react\"\n\nimport { useDebounce } from \"@/registry/tanfust/hooks/use-debounce\"\n\nexport default function UseDebounceDemo() {\n  const [value, setValue] = React.useState(\"\")\n  const debounced = useDebounce(value, 400)\n\n  return (\n    <div className=\"flex w-full max-w-sm flex-col gap-3 font-mono text-xs\">\n      <label className=\"flex flex-col gap-1\">\n        <span className=\"text-[10px] uppercase tracking-wider text-muted-foreground\">Type quickly</span>\n        <input\n          className=\"h-9 border border-foreground bg-background px-3 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground\"\n          onChange={(e) => setValue(e.target.value)}\n          placeholder=\"search…\"\n          value={value}\n        />\n      </label>\n      <dl className=\"grid grid-cols-[6rem_1fr] gap-x-3 gap-y-1\">\n        <dt className=\"text-muted-foreground\">live</dt>\n        <dd className=\"truncate\">{value || \"—\"}</dd>\n        <dt className=\"text-muted-foreground\">debounced</dt>\n        <dd className=\"truncate\">{debounced || \"—\"}</dd>\n      </dl>\n    </div>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "examples"
+  ],
+  "type": "registry:example"
+}

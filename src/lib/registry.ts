@@ -26,9 +26,12 @@ export const CATEGORIES = [
 export type CategorySlug = (typeof CATEGORIES)[number]["slug"]
 
 export function categoryOf(item: RegistryItem): CategorySlug | undefined {
+  // Prefer the declared category; fall back to the folder the first file lives in
+  // (items like registry:base or registry:font have no files).
+  const declared = item.categories?.[0]
   const first = item.files?.[0]?.path ?? ""
-  const match = first.match(/^src\/registry\/tanfust\/([^/]+)\//)
-  const slug = match?.[1]
+  const fromPath = first.match(/^src\/registry\/tanfust\/([^/]+)\//)?.[1]
+  const slug = declared ?? fromPath
   return CATEGORIES.some((c) => c.slug === slug) ? (slug as CategorySlug) : undefined
 }
 

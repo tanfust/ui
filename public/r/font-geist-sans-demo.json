@@ -1,0 +1,18 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "font-geist-sans-demo",
+  "title": "font-geist-sans demo",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Geist Sans and Geist Mono specimens.",
+  "files": [
+    {
+      "path": "src/registry/tanfust/examples/font-geist-demo.tsx",
+      "content": "/** Specimen for `font-geist-sans` and `font-geist-mono`. */\nexport default function FontGeistDemo() {\n  return (\n    <div className=\"grid w-full gap-8 sm:grid-cols-2\">\n      <figure className=\"flex flex-col gap-2\">\n        <figcaption className=\"font-mono text-[10px] uppercase tracking-wider text-muted-foreground\">\n          Geist Sans · --font-sans\n        </figcaption>\n        <p className=\"font-sans text-3xl font-semibold tracking-tight\">Sphinx of black quartz, judge my vow.</p>\n        <p className=\"font-sans text-sm text-muted-foreground\">\n          ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789\n        </p>\n      </figure>\n      <figure className=\"flex flex-col gap-2\">\n        <figcaption className=\"font-mono text-[10px] uppercase tracking-wider text-muted-foreground\">\n          Geist Mono · --font-mono\n        </figcaption>\n        <p className=\"font-mono text-3xl font-semibold tracking-tight\">Sphinx of black quartz, judge my vow.</p>\n        <p className=\"font-mono text-sm text-muted-foreground\">\n          ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz 0123456789\n        </p>\n      </figure>\n    </div>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "examples"
+  ],
+  "type": "registry:example"
+}

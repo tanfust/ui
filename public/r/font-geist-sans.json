@@ -1,0 +1,25 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "font-geist-sans",
+  "title": "Geist Sans",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Geist Sans as the project's --font-sans. Uses next/font/google on Next.js and @fontsource-variable/geist everywhere else.",
+  "meta": {
+    "tier": "free",
+    "version": "1.0.0"
+  },
+  "categories": [
+    "foundations"
+  ],
+  "type": "registry:font",
+  "font": {
+    "family": "'Geist Variable', ui-sans-serif, system-ui, sans-serif",
+    "provider": "google",
+    "import": "Geist",
+    "variable": "--font-sans",
+    "subsets": [
+      "latin"
+    ],
+    "dependency": "@fontsource-variable/geist"
+  }
+}

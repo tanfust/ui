@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-debounce",
+  "title": "useDebounce / useDebouncedCallback",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Debounce a value or a callback. useDebounce returns the value after it stops changing; useDebouncedCallback returns a stable function that runs the latest callback after the delay.",
+  "files": [
+    {
+      "path": "src/registry/tanfust/hooks/use-debounce.ts",
+      "content": "import * as React from \"react\"\n\n/**\n * Returns `value` after it has stopped changing for `delay` ms.\n * Typical use: search inputs that hit an API.\n *\n * @example\n * const [query, setQuery] = React.useState(\"\")\n * const debounced = useDebounce(query, 300)\n */\nexport function useDebounce<T>(value: T, delay = 300): T {\n  const [debounced, setDebounced] = React.useState(value)\n\n  React.useEffect(() => {\n    const id = window.setTimeout(() => setDebounced(value), delay)\n    return () => window.clearTimeout(id)\n  }, [value, delay])\n\n  return debounced\n}\n\n/**\n * Debounced callback. The returned function keeps a stable identity; the\n * latest `callback` is always the one that runs.\n */\nexport function useDebouncedCallback<A extends Array<unknown>>(\n  callback: (...args: A) => void,\n  delay = 300\n) {\n  const latest = React.useRef(callback)\n  const timer = React.useRef<number | undefined>(undefined)\n\n  React.useEffect(() => {\n    latest.current = callback\n  }, [callback])\n\n  React.useEffect(() => () => window.clearTimeout(timer.current), [])\n\n  return React.useCallback(\n    (...args: A) => {\n      window.clearTimeout(timer.current)\n      timer.current = window.setTimeout(() => latest.current(...args), delay)\n    },\n    [delay]\n  )\n}\n",
+      "type": "registry:hook"
+    }
+  ],
+  "meta": {
+    "tier": "free",
+    "version": "1.0.0"
+  },
+  "categories": [
+    "hooks"
+  ],
+  "type": "registry:hook"
+}

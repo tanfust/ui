@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "format-currency",
+  "title": "Format Currency",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Format prices from minor units (cents) the way payment APIs return them, with locale and currency options, plus formatCompact for 1.2K-style numbers. Intl only.",
+  "files": [
+    {
+      "path": "src/registry/tanfust/lib/format-currency.ts",
+      "content": "/**\n * Currency formatting for prices. Accepts minor units (cents) by default,\n * which is what Stripe, Paddle and most payment APIs return.\n *\n * @example\n * formatCurrency(1999)                                  // \"$19.99\"\n * formatCurrency(1999, { currency: \"EUR\", locale: \"fr-FR\" }) // \"19,99 €\"\n * formatCurrency(19.99, { minorUnits: false })          // \"$19.99\"\n * formatCurrency(2000, { trimZeros: true })             // \"$20\"\n */\nexport function formatCurrency(\n  amount: number,\n  {\n    currency = \"USD\",\n    locale,\n    minorUnits = true,\n    trimZeros = false,\n  }: { currency?: string; locale?: string; minorUnits?: boolean; trimZeros?: boolean } = {}\n) {\n  const value = minorUnits ? amount / 100 : amount\n  const wholeNumber = Number.isInteger(value)\n  return new Intl.NumberFormat(locale, {\n    style: \"currency\",\n    currency,\n    minimumFractionDigits: trimZeros && wholeNumber ? 0 : undefined,\n    maximumFractionDigits: trimZeros && wholeNumber ? 0 : undefined,\n  }).format(value)\n}\n\n/** Compact large numbers: 1200 → \"1.2K\", 3_400_000 → \"3.4M\". */\nexport function formatCompact(value: number, { locale }: { locale?: string } = {}) {\n  return new Intl.NumberFormat(locale, { notation: \"compact\", maximumFractionDigits: 1 }).format(value)\n}\n",
+      "type": "registry:lib"
+    }
+  ],
+  "meta": {
+    "tier": "free",
+    "version": "1.0.0"
+  },
+  "categories": [
+    "lib"
+  ],
+  "type": "registry:lib"
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-copy-to-clipboard-demo",
+  "title": "use-copy-to-clipboard demo",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "A copy button with a self-resetting Copied state.",
+  "registryDependencies": [
+    "@tanfust/use-copy-to-clipboard"
+  ],
+  "files": [
+    {
+      "path": "src/registry/tanfust/examples/use-copy-to-clipboard-demo.tsx",
+      "content": "import { useCopyToClipboard } from \"@/registry/tanfust/hooks/use-copy-to-clipboard\"\n\nconst command = \"npx shadcn@latest add @tanfust/use-copy-to-clipboard\"\n\nexport default function UseCopyToClipboardDemo() {\n  const { copy, state } = useCopyToClipboard()\n  return (\n    <div className=\"flex w-full max-w-md items-stretch font-mono text-xs\">\n      <pre className=\"flex-1 overflow-x-auto border border-r-0 border-foreground px-3 py-2\">\n        <code>{command}</code>\n      </pre>\n      <button\n        className=\"border border-foreground bg-foreground px-3 uppercase tracking-wider text-background hover:bg-background hover:text-foreground\"\n        onClick={() => copy(command)}\n        type=\"button\"\n      >\n        {state === \"copied\" ? \"Copied\" : state === \"error\" ? \"Failed\" : \"Copy\"}\n      </button>\n    </div>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "examples"
+  ],
+  "type": "registry:example"
+}

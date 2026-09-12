@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-stepper",
+  "title": "useStepper",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "State machine for multi-step flows: current step, next/back/skip/goTo, completed and skipped sets, progress fraction, optional steps and onComplete. Typed by your step ids.",
+  "files": [
+    {
+      "path": "src/registry/tanfust/hooks/use-stepper.ts",
+      "content": "import * as React from \"react\"\n\nexport type StepperOptions<Step extends string> = {\n  /** Ordered step ids. */\n  steps: ReadonlyArray<Step>\n  /** Step to start on. Defaults to the first. */\n  initial?: Step\n  /** Steps that may be skipped with `skip()`. */\n  optional?: ReadonlyArray<Step>\n  /** Called when `next()` is invoked on the last step. */\n  onComplete?: () => void\n}\n\n/**\n * State for multi-step flows (onboarding, checkout, wizards). Tracks the\n * current step, which steps are done or skipped, and exposes navigation that\n * never leaves the `steps` range.\n *\n * @example\n * const stepper = useStepper({ steps: [\"profile\", \"team\", \"done\"], optional: [\"team\"] })\n * stepper.current       // \"profile\"\n * stepper.next()        // -> \"team\"\n * stepper.skip()        // marks \"team\" skipped, -> \"done\"\n * stepper.progress      // 0..1\n */\nexport function useStepper<Step extends string>({\n  steps,\n  initial,\n  optional = [],\n  onComplete,\n}: StepperOptions<Step>) {\n  const [index, setIndex] = React.useState(() => Math.max(0, initial ? steps.indexOf(initial) : 0))\n  const [completed, setCompleted] = React.useState<ReadonlySet<Step>>(() => new Set())\n  const [skipped, setSkipped] = React.useState<ReadonlySet<Step>>(() => new Set())\n\n  const current = steps[index]!\n  const isFirst = index === 0\n  const isLast = index === steps.length - 1\n\n  const goTo = React.useCallback(\n    (step: Step) => {\n      const i = steps.indexOf(step)\n      if (i !== -1) setIndex(i)\n    },\n    [steps]\n  )\n\n  const next = React.useCallback(() => {\n    setCompleted((prev) => new Set(prev).add(current))\n    setSkipped((prev) => {\n      if (!prev.has(current)) return prev\n      const copy = new Set(prev)\n      copy.delete(current)\n      return copy\n    })\n    if (isLast) onComplete?.()\n    else setIndex((i) => i + 1)\n  }, [current, isLast, onComplete])\n\n  const back = React.useCallback(() => setIndex((i) => Math.max(0, i - 1)), [])\n\n  const skip = React.useCallback(() => {\n    if (!optional.includes(current)) return\n    setSkipped((prev) => new Set(prev).add(current))\n    if (isLast) onComplete?.()\n    else setIndex((i) => i + 1)\n  }, [current, isLast, onComplete, optional])\n\n  const reset = React.useCallback(() => {\n    setIndex(0)\n    setCompleted(new Set())\n    setSkipped(new Set())\n  }, [])\n\n  return {\n    steps,\n    current,\n    index,\n    isFirst,\n    isLast,\n    canSkip: optional.includes(current),\n    completed,\n    skipped,\n    /** Fraction of steps done, 0 to 1 (current step counts as in progress). */\n    progress: steps.length <= 1 ? 1 : index / (steps.length - 1),\n    next,\n    back,\n    skip,\n    goTo,\n    reset,\n    isCompleted: (step: Step) => completed.has(step),\n    isSkipped: (step: Step) => skipped.has(step),\n  }\n}\n\nexport type Stepper<Step extends string> = ReturnType<typeof useStepper<Step>>\n",
+      "type": "registry:hook"
+    }
+  ],
+  "meta": {
+    "tier": "free",
+    "version": "1.0.0"
+  },
+  "categories": [
+    "hooks"
+  ],
+  "type": "registry:hook"
+}

@@ -14,6 +14,31 @@ npx shadcn@latest mcp init --client claude          # expose the registry to an 
 Catalog (machine-readable): https://ui.tanfust.com/r/registry.json
 Item payloads: https://ui.tanfust.com/r/<item>.json
 
-## Items (0)
+## Items (13)
 
-_No items published yet._
+- [tanfust](https://ui.tanfust.com/r/tanfust.json) (registry:base) — The Tanfust design system as one install: zinc palette, 0.625rem radius, Geist Sans for text, Geist Mono for headings and labels, inverted bold menus, and the @tanfust registry pre-registered in components.json. Works with Radix or Base UI — it does not pin a primitive library.
+  `npx shadcn@latest add @tanfust/tanfust`
+- [theme-tanfust](https://ui.tanfust.com/r/theme-tanfust.json) (registry:theme) — Only the colour tokens of the Tanfust design system (zinc, light and dark) plus the 0.625rem radius. Use it to restyle an existing shadcn project without changing fonts or menus.
+  `npx shadcn@latest add @tanfust/theme-tanfust`
+- [font-geist-sans](https://ui.tanfust.com/r/font-geist-sans.json) (registry:font) — Geist Sans as the project's --font-sans. Uses next/font/google on Next.js and @fontsource-variable/geist everywhere else.
+  `npx shadcn@latest add @tanfust/font-geist-sans`
+- [font-geist-mono](https://ui.tanfust.com/r/font-geist-mono.json) (registry:font) — Geist Mono as the project's --font-mono. Uses next/font/google on Next.js and @fontsource-variable/geist-mono everywhere else.
+  `npx shadcn@latest add @tanfust/font-geist-mono`
+- [use-mobile](https://ui.tanfust.com/r/use-mobile.json) (registry:hook) — Boolean hook that is true below the md breakpoint (768px by default). Safe for SSR: false on the server and first render, then live via matchMedia.
+  `npx shadcn@latest add @tanfust/use-mobile`
+- [use-media-query](https://ui.tanfust.com/r/use-media-query.json) (registry:hook) — Subscribe to any CSS media query with useSyncExternalStore. Returns false on the server, tracks the query live on the client. No hydration mismatch.
+  `npx shadcn@latest add @tanfust/use-media-query`
+- [use-debounce](https://ui.tanfust.com/r/use-debounce.json) (registry:hook) — Debounce a value or a callback. useDebounce returns the value after it stops changing; useDebouncedCallback returns a stable function that runs the latest callback after the delay.
+  `npx shadcn@latest add @tanfust/use-debounce`
+- [use-copy-to-clipboard](https://ui.tanfust.com/r/use-copy-to-clipboard.json) (registry:hook) — Copy text to the clipboard and get a short-lived status (idle, copied, error) to drive a Copy button label. Resets automatically.
+  `npx shadcn@latest add @tanfust/use-copy-to-clipboard`
+- [use-stepper](https://ui.tanfust.com/r/use-stepper.json) (registry:hook) — State machine for multi-step flows: current step, next/back/skip/goTo, completed and skipped sets, progress fraction, optional steps and onComplete. Typed by your step ids.
+  `npx shadcn@latest add @tanfust/use-stepper`
+- [format-date](https://ui.tanfust.com/r/format-date.json) (registry:lib) — Locale-aware date formatting with presets (short, medium, long, datetime, time) and formatRelative for '3 minutes ago'. Intl only, zero dependencies.
+  `npx shadcn@latest add @tanfust/format-date`
+- [format-currency](https://ui.tanfust.com/r/format-currency.json) (registry:lib) — Format prices from minor units (cents) the way payment APIs return them, with locale and currency options, plus formatCompact for 1.2K-style numbers. Intl only.
+  `npx shadcn@latest add @tanfust/format-currency`
+- [absolute-url](https://ui.tanfust.com/r/absolute-url.json) (registry:lib) — Build absolute URLs for the current deployment from a path, detecting the origin from NEXT_PUBLIC_APP_URL, VITE_APP_URL, APP_URL, VERCEL_URL or window.location. For OG images, emails and webhooks.
+  `npx shadcn@latest add @tanfust/absolute-url`
+- [slugify](https://ui.tanfust.com/r/slugify.json) (registry:lib) — URL-safe slugs: strips accents, lowercases, collapses separators, optional max length; uniqueSlug appends -2, -3 against a taken set.
+  `npx shadcn@latest add @tanfust/slugify`

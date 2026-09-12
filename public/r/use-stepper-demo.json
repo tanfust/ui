@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-stepper-demo",
+  "title": "use-stepper demo",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "A four-step wizard with an optional step, progress bar and reset.",
+  "registryDependencies": [
+    "@tanfust/use-stepper"
+  ],
+  "files": [
+    {
+      "path": "src/registry/tanfust/examples/use-stepper-demo.tsx",
+      "content": "import { useStepper } from \"@/registry/tanfust/hooks/use-stepper\"\n\nconst steps = [\"account\", \"workspace\", \"invite\", \"done\"] as const\n\nexport default function UseStepperDemo() {\n  const stepper = useStepper({ steps, optional: [\"invite\"] })\n\n  return (\n    <div className=\"flex w-full max-w-md flex-col gap-4 font-mono text-xs\">\n      <ol className=\"flex items-center gap-2 text-[10px] uppercase tracking-wider\">\n        {stepper.steps.map((step, i) => (\n          <li className=\"flex items-center gap-2\" key={step}>\n            <button\n              className={\n                step === stepper.current\n                  ? \"font-bold underline underline-offset-4\"\n                  : stepper.isCompleted(step)\n                    ? \"text-foreground\"\n                    : \"text-muted-foreground\"\n              }\n              onClick={() => stepper.goTo(step)}\n              type=\"button\"\n            >\n              {stepper.isSkipped(step) ? `(${step})` : step}\n            </button>\n            {i < stepper.steps.length - 1 ? <span aria-hidden>/</span> : null}\n          </li>\n        ))}\n      </ol>\n\n      <div aria-hidden className=\"h-1 w-full bg-muted\">\n        <div className=\"h-full bg-foreground transition-all\" style={{ width: `${stepper.progress * 100}%` }} />\n      </div>\n\n      <p>\n        Step {stepper.index + 1} of {stepper.steps.length}: <strong>{stepper.current}</strong>\n      </p>\n\n      <div className=\"flex gap-2\">\n        <button\n          className=\"border border-foreground px-3 py-1 uppercase tracking-wider disabled:opacity-40\"\n          disabled={stepper.isFirst}\n          onClick={stepper.back}\n          type=\"button\"\n        >\n          Back\n        </button>\n        {stepper.canSkip ? (\n          <button className=\"border border-transparent px-3 py-1 uppercase tracking-wider underline-offset-4 hover:underline\" onClick={stepper.skip} type=\"button\">\n            Skip\n          </button>\n        ) : null}\n        <button\n          className=\"border border-foreground bg-foreground px-3 py-1 uppercase tracking-wider text-background\"\n          onClick={stepper.isLast ? stepper.reset : stepper.next}\n          type=\"button\"\n        >\n          {stepper.isLast ? \"Start over\" : \"Next →\"}\n        </button>\n      </div>\n    </div>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "examples"
+  ],
+  "type": "registry:example"
+}

@@ -1,0 +1,9 @@
+# Cloudflare Workers static-asset headers. The registry JSON is fetched
+# cross-origin by the shadcn CLI, v0 and browsers; cache it briefly at the edge.
+/r/*
+  Access-Control-Allow-Origin: *
+  Cache-Control: public, max-age=300, s-maxage=3600
+  Vary: Accept
+
+/llms.txt
+  Cache-Control: public, max-age=300, s-maxage=3600

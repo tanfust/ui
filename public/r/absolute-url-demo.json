@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "absolute-url-demo",
+  "title": "absolute-url demo",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "absoluteUrl with an explicit base and with origin detection.",
+  "registryDependencies": [
+    "@tanfust/absolute-url"
+  ],
+  "files": [
+    {
+      "path": "src/registry/tanfust/examples/absolute-url-demo.tsx",
+      "content": "import { absoluteUrl } from \"@/registry/tanfust/lib/absolute-url\"\n\nexport default function AbsoluteUrlDemo() {\n  const rows: Array<[string, string]> = [\n    ['absoluteUrl(\"/og.png\", \"https://app.example.com\")', absoluteUrl(\"/og.png\", \"https://app.example.com\")],\n    ['absoluteUrl(\"api/webhooks/paddle\", \"https://app.example.com/\")', absoluteUrl(\"api/webhooks/paddle\", \"https://app.example.com/\")],\n    ['absoluteUrl(\"/\")', absoluteUrl(\"/\")],\n  ]\n  return (\n    <dl className=\"grid w-full max-w-lg grid-cols-1 gap-y-2 font-mono text-xs\">\n      {rows.map(([code, out]) => (\n        <div className=\"flex flex-col gap-0.5\" key={code}>\n          <dt className=\"truncate text-muted-foreground\">{code}</dt>\n          <dd className=\"break-all\">{out}</dd>\n        </div>\n      ))}\n    </dl>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "examples"
+  ],
+  "type": "registry:example"
+}

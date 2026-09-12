@@ -1,4 +1,4 @@
-import { cn } from "@/lib/utils"
+import { buttonClasses } from "@/components/site/button"
 
 /**
  * Opens a registry item in v0. Takes the full item URL so it works for any
@@ -18,12 +18,9 @@ export function OpenInV0Button({
       href={`https://v0.dev/chat/api/open?url=${encodeURIComponent(url)}`}
       target="_blank"
       rel="noreferrer"
-      className={cn(
-        "inline-flex h-8 items-center gap-1 rounded-md bg-primary px-3 font-mono text-xs text-primary-foreground hover:opacity-90",
-        className
-      )}
+      className={buttonClasses({ size: "sm", variant: "primary", className: `h-8 ${className ?? ""}` })}
     >
-      Open in
+      [ Open in
       <svg
         viewBox="0 0 40 20"
         fill="none"
@@ -40,6 +37,7 @@ export function OpenInV0Button({
           fill="currentColor"
         />
       </svg>
+      ]
     </a>
   )
 }

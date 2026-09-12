@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "use-media-query",
+  "title": "useMediaQuery",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Subscribe to any CSS media query with useSyncExternalStore. Returns false on the server, tracks the query live on the client. No hydration mismatch.",
+  "files": [
+    {
+      "path": "src/registry/tanfust/hooks/use-media-query.ts",
+      "content": "import * as React from \"react\"\n\n/**\n * Subscribe to a CSS media query. Returns `false` on the server and on the\n * first client render (no hydration mismatch), then tracks the query live.\n *\n * @example\n * const prefersReducedMotion = useMediaQuery(\"(prefers-reduced-motion: reduce)\")\n */\nexport function useMediaQuery(query: string) {\n  const subscribe = React.useCallback(\n    (onChange: () => void) => {\n      const mql = window.matchMedia(query)\n      mql.addEventListener(\"change\", onChange)\n      return () => mql.removeEventListener(\"change\", onChange)\n    },\n    [query]\n  )\n\n  return React.useSyncExternalStore(\n    subscribe,\n    () => window.matchMedia(query).matches,\n    () => false\n  )\n}\n",
+      "type": "registry:hook"
+    }
+  ],
+  "meta": {
+    "tier": "free",
+    "version": "1.0.0"
+  },
+  "categories": [
+    "hooks"
+  ],
+  "type": "registry:hook"
+}

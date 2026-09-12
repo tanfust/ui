@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "slugify-demo",
+  "title": "slugify demo",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Live slugify with maxLength and uniqueSlug.",
+  "registryDependencies": [
+    "@tanfust/slugify"
+  ],
+  "files": [
+    {
+      "path": "src/registry/tanfust/examples/slugify-demo.tsx",
+      "content": "import * as React from \"react\"\n\nimport { slugify, uniqueSlug } from \"@/registry/tanfust/lib/slugify\"\n\nexport default function SlugifyDemo() {\n  const [value, setValue] = React.useState(\"Crème brûlée & the Essentialist Quarterly, 2026!\")\n  const slug = slugify(value)\n  const taken = [\"creme-brulee-the-essentialist-quarterly-2026\"]\n\n  return (\n    <div className=\"flex w-full max-w-lg flex-col gap-3 font-mono text-xs\">\n      <input\n        className=\"h-9 border border-foreground bg-background px-3 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground\"\n        onChange={(e) => setValue(e.target.value)}\n        value={value}\n      />\n      <dl className=\"grid grid-cols-[8rem_1fr] gap-x-3 gap-y-1\">\n        <dt className=\"text-muted-foreground\">slugify</dt>\n        <dd className=\"break-all\">{slug || \"—\"}</dd>\n        <dt className=\"text-muted-foreground\">maxLength: 20</dt>\n        <dd className=\"break-all\">{slugify(value, { maxLength: 20 }) || \"—\"}</dd>\n        <dt className=\"text-muted-foreground\">uniqueSlug</dt>\n        <dd className=\"break-all\">{uniqueSlug(slug, taken)}</dd>\n      </dl>\n    </div>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "examples"
+  ],
+  "type": "registry:example"
+}

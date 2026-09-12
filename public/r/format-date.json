@@ -1,0 +1,22 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "format-date",
+  "title": "Format Date",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "Locale-aware date formatting with presets (short, medium, long, datetime, time) and formatRelative for '3 minutes ago'. Intl only, zero dependencies.",
+  "files": [
+    {
+      "path": "src/registry/tanfust/lib/format-date.ts",
+      "content": "type DateInput = Date | string | number\n\nfunction toDate(input: DateInput) {\n  const d = input instanceof Date ? input : new Date(input)\n  if (Number.isNaN(d.getTime())) throw new RangeError(`Invalid date: ${String(input)}`)\n  return d\n}\n\n/**\n * Locale-aware date formatting with sensible presets. No dependency.\n *\n * @example\n * formatDate(\"2026-09-12\")                 // \"Sep 12, 2026\"\n * formatDate(date, { preset: \"long\" })     // \"September 12, 2026\"\n * formatDate(date, { preset: \"datetime\" }) // \"Sep 12, 2026, 14:05\"\n * formatDate(date, { locale: \"fr-FR\" })    // \"12 sept. 2026\"\n */\nexport function formatDate(\n  input: DateInput,\n  {\n    preset = \"medium\",\n    locale,\n    timeZone,\n  }: { preset?: \"short\" | \"medium\" | \"long\" | \"datetime\" | \"time\"; locale?: string; timeZone?: string } = {}\n) {\n  const presets: Record<string, Intl.DateTimeFormatOptions> = {\n    short: { year: \"numeric\", month: \"2-digit\", day: \"2-digit\" },\n    medium: { year: \"numeric\", month: \"short\", day: \"numeric\" },\n    long: { year: \"numeric\", month: \"long\", day: \"numeric\" },\n    datetime: { year: \"numeric\", month: \"short\", day: \"numeric\", hour: \"2-digit\", minute: \"2-digit\" },\n    time: { hour: \"2-digit\", minute: \"2-digit\" },\n  }\n  return new Intl.DateTimeFormat(locale, { ...presets[preset], timeZone }).format(toDate(input))\n}\n\n/**\n * \"3 minutes ago\", \"in 2 days\", \"yesterday\" — via Intl.RelativeTimeFormat.\n */\nexport function formatRelative(\n  input: DateInput,\n  { locale, now = new Date() }: { locale?: string; now?: Date } = {}\n) {\n  const diffMs = toDate(input).getTime() - now.getTime()\n  const rtf = new Intl.RelativeTimeFormat(locale, { numeric: \"auto\" })\n  const units: Array<[Intl.RelativeTimeFormatUnit, number]> = [\n    [\"year\", 1000 * 60 * 60 * 24 * 365],\n    [\"month\", 1000 * 60 * 60 * 24 * 30],\n    [\"week\", 1000 * 60 * 60 * 24 * 7],\n    [\"day\", 1000 * 60 * 60 * 24],\n    [\"hour\", 1000 * 60 * 60],\n    [\"minute\", 1000 * 60],\n  ]\n  for (const [unit, ms] of units) {\n    if (Math.abs(diffMs) >= ms) return rtf.format(Math.round(diffMs / ms), unit)\n  }\n  return rtf.format(Math.round(diffMs / 1000), \"second\")\n}\n",
+      "type": "registry:lib"
+    }
+  ],
+  "meta": {
+    "tier": "free",
+    "version": "1.0.0"
+  },
+  "categories": [
+    "lib"
+  ],
+  "type": "registry:lib"
+}

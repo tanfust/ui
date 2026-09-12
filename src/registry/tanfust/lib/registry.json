@@ -1,4 +1,85 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "items": []
+  "items": [
+    {
+      "name": "format-date",
+      "type": "registry:lib",
+      "title": "Format Date",
+      "description": "Locale-aware date formatting with presets (short, medium, long, datetime, time) and formatRelative for '3 minutes ago'. Intl only, zero dependencies.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "lib"
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "files": [
+        {
+          "path": "format-date.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "format-currency",
+      "type": "registry:lib",
+      "title": "Format Currency",
+      "description": "Format prices from minor units (cents) the way payment APIs return them, with locale and currency options, plus formatCompact for 1.2K-style numbers. Intl only.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "lib"
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "files": [
+        {
+          "path": "format-currency.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "absolute-url",
+      "type": "registry:lib",
+      "title": "Absolute Url",
+      "description": "Build absolute URLs for the current deployment from a path, detecting the origin from NEXT_PUBLIC_APP_URL, VITE_APP_URL, APP_URL, VERCEL_URL or window.location. For OG images, emails and webhooks.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "lib"
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "files": [
+        {
+          "path": "absolute-url.ts",
+          "type": "registry:lib"
+        }
+      ]
+    },
+    {
+      "name": "slugify",
+      "type": "registry:lib",
+      "title": "Slugify",
+      "description": "URL-safe slugs: strips accents, lowercases, collapses separators, optional max length; uniqueSlug appends -2, -3 against a taken set.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "lib"
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "files": [
+        {
+          "path": "slugify.ts",
+          "type": "registry:lib"
+        }
+      ]
+    }
+  ]
 }

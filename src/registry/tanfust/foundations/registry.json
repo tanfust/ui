@@ -1,4 +1,254 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "items": []
+  "items": [
+    {
+      "name": "tanfust",
+      "type": "registry:base",
+      "title": "Tanfust",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "foundations"
+      ],
+      "description": "The Tanfust design system as one install: zinc palette, 0.625rem radius, Geist Sans for text, Geist Mono for headings and labels, inverted bold menus, and the @tanfust registry pre-registered in components.json. Works with Radix or Base UI — it does not pin a primitive library.",
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "config": {
+        "iconLibrary": "lucide",
+        "menuColor": "inverted",
+        "menuAccent": "bold",
+        "tailwind": {
+          "baseColor": "zinc"
+        },
+        "registries": {
+          "@tanfust": "https://ui.tanfust.com/r/{name}.json"
+        }
+      },
+      "dependencies": [
+        "tw-animate-css",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@tanfust/font-geist-sans",
+        "@tanfust/font-geist-mono"
+      ],
+      "cssVars": {
+        "theme": {
+          "font-heading": "var(--font-mono)"
+        },
+        "light": {
+          "radius": "0.625rem",
+          "background": "oklch(1 0 0)",
+          "foreground": "oklch(0.141 0.005 285.823)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.141 0.005 285.823)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.141 0.005 285.823)",
+          "primary": "oklch(0.21 0.006 285.885)",
+          "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.967 0.001 286.375)",
+          "secondary-foreground": "oklch(0.21 0.006 285.885)",
+          "muted": "oklch(0.967 0.001 286.375)",
+          "muted-foreground": "oklch(0.552 0.016 285.938)",
+          "accent": "oklch(0.21 0.006 285.885)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.577 0.245 27.325)",
+          "border": "oklch(0.92 0.004 286.32)",
+          "input": "oklch(0.92 0.004 286.32)",
+          "ring": "oklch(0.705 0.015 286.067)",
+          "chart-1": "oklch(0.871 0.006 286.286)",
+          "chart-2": "oklch(0.552 0.016 285.938)",
+          "chart-3": "oklch(0.442 0.017 285.786)",
+          "chart-4": "oklch(0.37 0.013 285.805)",
+          "chart-5": "oklch(0.274 0.006 286.033)",
+          "sidebar": "oklch(0.985 0 0)",
+          "sidebar-foreground": "oklch(0.141 0.005 285.823)",
+          "sidebar-primary": "oklch(0.21 0.006 285.885)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.967 0.001 286.375)",
+          "sidebar-accent-foreground": "oklch(0.21 0.006 285.885)",
+          "sidebar-border": "oklch(0.92 0.004 286.32)",
+          "sidebar-ring": "oklch(0.705 0.015 286.067)"
+        },
+        "dark": {
+          "background": "oklch(0.141 0.005 285.823)",
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.21 0.006 285.885)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.21 0.006 285.885)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.92 0.004 286.32)",
+          "primary-foreground": "oklch(0.21 0.006 285.885)",
+          "secondary": "oklch(0.274 0.006 286.033)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.274 0.006 286.033)",
+          "muted-foreground": "oklch(0.705 0.015 286.067)",
+          "accent": "oklch(0.92 0.004 286.32)",
+          "accent-foreground": "oklch(0.21 0.006 285.885)",
+          "destructive": "oklch(0.704 0.191 22.216)",
+          "border": "oklch(1 0 0 / 10%)",
+          "input": "oklch(1 0 0 / 15%)",
+          "ring": "oklch(0.552 0.016 285.938)",
+          "chart-1": "oklch(0.871 0.006 286.286)",
+          "chart-2": "oklch(0.552 0.016 285.938)",
+          "chart-3": "oklch(0.442 0.017 285.786)",
+          "chart-4": "oklch(0.37 0.013 285.805)",
+          "chart-5": "oklch(0.274 0.006 286.033)",
+          "sidebar": "oklch(0.21 0.006 285.885)",
+          "sidebar-foreground": "oklch(0.985 0 0)",
+          "sidebar-primary": "oklch(0.488 0.243 264.376)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.274 0.006 286.033)",
+          "sidebar-accent-foreground": "oklch(0.985 0 0)",
+          "sidebar-border": "oklch(1 0 0 / 10%)",
+          "sidebar-ring": "oklch(0.552 0.016 285.938)"
+        }
+      },
+      "css": {
+        "@import \"tw-animate-css\"": {},
+        "@layer base": {
+          "*": {
+            "@apply border-border outline-ring/50": {}
+          },
+          "body": {
+            "@apply bg-background text-foreground": {}
+          }
+        }
+      },
+      "docs": "Tanfust base installed. Headings use Geist Mono via the `font-heading` utility; body text uses Geist Sans. Browse items with `npx shadcn@latest list @tanfust`."
+    },
+    {
+      "name": "theme-tanfust",
+      "type": "registry:theme",
+      "title": "Tanfust theme",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "foundations"
+      ],
+      "description": "Only the colour tokens of the Tanfust design system (zinc, light and dark) plus the 0.625rem radius. Use it to restyle an existing shadcn project without changing fonts or menus.",
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "cssVars": {
+        "light": {
+          "radius": "0.625rem",
+          "background": "oklch(1 0 0)",
+          "foreground": "oklch(0.141 0.005 285.823)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.141 0.005 285.823)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.141 0.005 285.823)",
+          "primary": "oklch(0.21 0.006 285.885)",
+          "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.967 0.001 286.375)",
+          "secondary-foreground": "oklch(0.21 0.006 285.885)",
+          "muted": "oklch(0.967 0.001 286.375)",
+          "muted-foreground": "oklch(0.552 0.016 285.938)",
+          "accent": "oklch(0.21 0.006 285.885)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.577 0.245 27.325)",
+          "border": "oklch(0.92 0.004 286.32)",
+          "input": "oklch(0.92 0.004 286.32)",
+          "ring": "oklch(0.705 0.015 286.067)",
+          "chart-1": "oklch(0.871 0.006 286.286)",
+          "chart-2": "oklch(0.552 0.016 285.938)",
+          "chart-3": "oklch(0.442 0.017 285.786)",
+          "chart-4": "oklch(0.37 0.013 285.805)",
+          "chart-5": "oklch(0.274 0.006 286.033)",
+          "sidebar": "oklch(0.985 0 0)",
+          "sidebar-foreground": "oklch(0.141 0.005 285.823)",
+          "sidebar-primary": "oklch(0.21 0.006 285.885)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.967 0.001 286.375)",
+          "sidebar-accent-foreground": "oklch(0.21 0.006 285.885)",
+          "sidebar-border": "oklch(0.92 0.004 286.32)",
+          "sidebar-ring": "oklch(0.705 0.015 286.067)"
+        },
+        "dark": {
+          "background": "oklch(0.141 0.005 285.823)",
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.21 0.006 285.885)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.21 0.006 285.885)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.92 0.004 286.32)",
+          "primary-foreground": "oklch(0.21 0.006 285.885)",
+          "secondary": "oklch(0.274 0.006 286.033)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.274 0.006 286.033)",
+          "muted-foreground": "oklch(0.705 0.015 286.067)",
+          "accent": "oklch(0.92 0.004 286.32)",
+          "accent-foreground": "oklch(0.21 0.006 285.885)",
+          "destructive": "oklch(0.704 0.191 22.216)",
+          "border": "oklch(1 0 0 / 10%)",
+          "input": "oklch(1 0 0 / 15%)",
+          "ring": "oklch(0.552 0.016 285.938)",
+          "chart-1": "oklch(0.871 0.006 286.286)",
+          "chart-2": "oklch(0.552 0.016 285.938)",
+          "chart-3": "oklch(0.442 0.017 285.786)",
+          "chart-4": "oklch(0.37 0.013 285.805)",
+          "chart-5": "oklch(0.274 0.006 286.033)",
+          "sidebar": "oklch(0.21 0.006 285.885)",
+          "sidebar-foreground": "oklch(0.985 0 0)",
+          "sidebar-primary": "oklch(0.488 0.243 264.376)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.274 0.006 286.033)",
+          "sidebar-accent-foreground": "oklch(0.985 0 0)",
+          "sidebar-border": "oklch(1 0 0 / 10%)",
+          "sidebar-ring": "oklch(0.552 0.016 285.938)"
+        }
+      }
+    },
+    {
+      "name": "font-geist-sans",
+      "type": "registry:font",
+      "title": "Geist Sans",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "foundations"
+      ],
+      "description": "Geist Sans as the project's --font-sans. Uses next/font/google on Next.js and @fontsource-variable/geist everywhere else.",
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "font": {
+        "family": "'Geist Variable', ui-sans-serif, system-ui, sans-serif",
+        "provider": "google",
+        "import": "Geist",
+        "variable": "--font-sans",
+        "subsets": [
+          "latin"
+        ],
+        "dependency": "@fontsource-variable/geist"
+      }
+    },
+    {
+      "name": "font-geist-mono",
+      "type": "registry:font",
+      "title": "Geist Mono",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "foundations"
+      ],
+      "description": "Geist Mono as the project's --font-mono. Uses next/font/google on Next.js and @fontsource-variable/geist-mono everywhere else.",
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "font": {
+        "family": "'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace",
+        "provider": "google",
+        "import": "Geist_Mono",
+        "variable": "--font-mono",
+        "subsets": [
+          "latin"
+        ],
+        "dependency": "@fontsource-variable/geist-mono"
+      }
+    }
+  ]
 }

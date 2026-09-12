@@ -2,5 +2,670 @@
   "$schema": "https://ui.shadcn.com/schema/registry.json",
   "name": "tanfust",
   "homepage": "https://ui.tanfust.com",
-  "items": []
+  "items": [
+    {
+      "name": "tanfust",
+      "title": "Tanfust",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "The Tanfust design system as one install: zinc palette, 0.625rem radius, Geist Sans for text, Geist Mono for headings and labels, inverted bold menus, and the @tanfust registry pre-registered in components.json. Works with Radix or Base UI — it does not pin a primitive library.",
+      "dependencies": [
+        "tw-animate-css",
+        "lucide-react"
+      ],
+      "registryDependencies": [
+        "utils",
+        "@tanfust/font-geist-sans",
+        "@tanfust/font-geist-mono"
+      ],
+      "cssVars": {
+        "theme": {
+          "font-heading": "var(--font-mono)"
+        },
+        "light": {
+          "radius": "0.625rem",
+          "background": "oklch(1 0 0)",
+          "foreground": "oklch(0.141 0.005 285.823)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.141 0.005 285.823)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.141 0.005 285.823)",
+          "primary": "oklch(0.21 0.006 285.885)",
+          "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.967 0.001 286.375)",
+          "secondary-foreground": "oklch(0.21 0.006 285.885)",
+          "muted": "oklch(0.967 0.001 286.375)",
+          "muted-foreground": "oklch(0.552 0.016 285.938)",
+          "accent": "oklch(0.21 0.006 285.885)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.577 0.245 27.325)",
+          "border": "oklch(0.92 0.004 286.32)",
+          "input": "oklch(0.92 0.004 286.32)",
+          "ring": "oklch(0.705 0.015 286.067)",
+          "chart-1": "oklch(0.871 0.006 286.286)",
+          "chart-2": "oklch(0.552 0.016 285.938)",
+          "chart-3": "oklch(0.442 0.017 285.786)",
+          "chart-4": "oklch(0.37 0.013 285.805)",
+          "chart-5": "oklch(0.274 0.006 286.033)",
+          "sidebar": "oklch(0.985 0 0)",
+          "sidebar-foreground": "oklch(0.141 0.005 285.823)",
+          "sidebar-primary": "oklch(0.21 0.006 285.885)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.967 0.001 286.375)",
+          "sidebar-accent-foreground": "oklch(0.21 0.006 285.885)",
+          "sidebar-border": "oklch(0.92 0.004 286.32)",
+          "sidebar-ring": "oklch(0.705 0.015 286.067)"
+        },
+        "dark": {
+          "background": "oklch(0.141 0.005 285.823)",
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.21 0.006 285.885)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.21 0.006 285.885)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.92 0.004 286.32)",
+          "primary-foreground": "oklch(0.21 0.006 285.885)",
+          "secondary": "oklch(0.274 0.006 286.033)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.274 0.006 286.033)",
+          "muted-foreground": "oklch(0.705 0.015 286.067)",
+          "accent": "oklch(0.92 0.004 286.32)",
+          "accent-foreground": "oklch(0.21 0.006 285.885)",
+          "destructive": "oklch(0.704 0.191 22.216)",
+          "border": "oklch(1 0 0 / 10%)",
+          "input": "oklch(1 0 0 / 15%)",
+          "ring": "oklch(0.552 0.016 285.938)",
+          "chart-1": "oklch(0.871 0.006 286.286)",
+          "chart-2": "oklch(0.552 0.016 285.938)",
+          "chart-3": "oklch(0.442 0.017 285.786)",
+          "chart-4": "oklch(0.37 0.013 285.805)",
+          "chart-5": "oklch(0.274 0.006 286.033)",
+          "sidebar": "oklch(0.21 0.006 285.885)",
+          "sidebar-foreground": "oklch(0.985 0 0)",
+          "sidebar-primary": "oklch(0.488 0.243 264.376)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.274 0.006 286.033)",
+          "sidebar-accent-foreground": "oklch(0.985 0 0)",
+          "sidebar-border": "oklch(1 0 0 / 10%)",
+          "sidebar-ring": "oklch(0.552 0.016 285.938)"
+        }
+      },
+      "css": {
+        "@import \"tw-animate-css\"": {},
+        "@layer base": {
+          "*": {
+            "@apply border-border outline-ring/50": {}
+          },
+          "body": {
+            "@apply bg-background text-foreground": {}
+          }
+        }
+      },
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "docs": "Tanfust base installed. Headings use Geist Mono via the `font-heading` utility; body text uses Geist Sans. Browse items with `npx shadcn@latest list @tanfust`.",
+      "categories": [
+        "foundations"
+      ],
+      "type": "registry:base",
+      "config": {
+        "tailwind": {
+          "baseColor": "zinc"
+        },
+        "iconLibrary": "lucide",
+        "menuColor": "inverted",
+        "menuAccent": "bold",
+        "registries": {
+          "@tanfust": "https://ui.tanfust.com/r/{name}.json"
+        }
+      }
+    },
+    {
+      "name": "theme-tanfust",
+      "title": "Tanfust theme",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Only the colour tokens of the Tanfust design system (zinc, light and dark) plus the 0.625rem radius. Use it to restyle an existing shadcn project without changing fonts or menus.",
+      "cssVars": {
+        "light": {
+          "radius": "0.625rem",
+          "background": "oklch(1 0 0)",
+          "foreground": "oklch(0.141 0.005 285.823)",
+          "card": "oklch(1 0 0)",
+          "card-foreground": "oklch(0.141 0.005 285.823)",
+          "popover": "oklch(1 0 0)",
+          "popover-foreground": "oklch(0.141 0.005 285.823)",
+          "primary": "oklch(0.21 0.006 285.885)",
+          "primary-foreground": "oklch(0.985 0 0)",
+          "secondary": "oklch(0.967 0.001 286.375)",
+          "secondary-foreground": "oklch(0.21 0.006 285.885)",
+          "muted": "oklch(0.967 0.001 286.375)",
+          "muted-foreground": "oklch(0.552 0.016 285.938)",
+          "accent": "oklch(0.21 0.006 285.885)",
+          "accent-foreground": "oklch(0.985 0 0)",
+          "destructive": "oklch(0.577 0.245 27.325)",
+          "border": "oklch(0.92 0.004 286.32)",
+          "input": "oklch(0.92 0.004 286.32)",
+          "ring": "oklch(0.705 0.015 286.067)",
+          "chart-1": "oklch(0.871 0.006 286.286)",
+          "chart-2": "oklch(0.552 0.016 285.938)",
+          "chart-3": "oklch(0.442 0.017 285.786)",
+          "chart-4": "oklch(0.37 0.013 285.805)",
+          "chart-5": "oklch(0.274 0.006 286.033)",
+          "sidebar": "oklch(0.985 0 0)",
+          "sidebar-foreground": "oklch(0.141 0.005 285.823)",
+          "sidebar-primary": "oklch(0.21 0.006 285.885)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.967 0.001 286.375)",
+          "sidebar-accent-foreground": "oklch(0.21 0.006 285.885)",
+          "sidebar-border": "oklch(0.92 0.004 286.32)",
+          "sidebar-ring": "oklch(0.705 0.015 286.067)"
+        },
+        "dark": {
+          "background": "oklch(0.141 0.005 285.823)",
+          "foreground": "oklch(0.985 0 0)",
+          "card": "oklch(0.21 0.006 285.885)",
+          "card-foreground": "oklch(0.985 0 0)",
+          "popover": "oklch(0.21 0.006 285.885)",
+          "popover-foreground": "oklch(0.985 0 0)",
+          "primary": "oklch(0.92 0.004 286.32)",
+          "primary-foreground": "oklch(0.21 0.006 285.885)",
+          "secondary": "oklch(0.274 0.006 286.033)",
+          "secondary-foreground": "oklch(0.985 0 0)",
+          "muted": "oklch(0.274 0.006 286.033)",
+          "muted-foreground": "oklch(0.705 0.015 286.067)",
+          "accent": "oklch(0.92 0.004 286.32)",
+          "accent-foreground": "oklch(0.21 0.006 285.885)",
+          "destructive": "oklch(0.704 0.191 22.216)",
+          "border": "oklch(1 0 0 / 10%)",
+          "input": "oklch(1 0 0 / 15%)",
+          "ring": "oklch(0.552 0.016 285.938)",
+          "chart-1": "oklch(0.871 0.006 286.286)",
+          "chart-2": "oklch(0.552 0.016 285.938)",
+          "chart-3": "oklch(0.442 0.017 285.786)",
+          "chart-4": "oklch(0.37 0.013 285.805)",
+          "chart-5": "oklch(0.274 0.006 286.033)",
+          "sidebar": "oklch(0.21 0.006 285.885)",
+          "sidebar-foreground": "oklch(0.985 0 0)",
+          "sidebar-primary": "oklch(0.488 0.243 264.376)",
+          "sidebar-primary-foreground": "oklch(0.985 0 0)",
+          "sidebar-accent": "oklch(0.274 0.006 286.033)",
+          "sidebar-accent-foreground": "oklch(0.985 0 0)",
+          "sidebar-border": "oklch(1 0 0 / 10%)",
+          "sidebar-ring": "oklch(0.552 0.016 285.938)"
+        }
+      },
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "categories": [
+        "foundations"
+      ],
+      "type": "registry:theme"
+    },
+    {
+      "name": "font-geist-sans",
+      "title": "Geist Sans",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Geist Sans as the project's --font-sans. Uses next/font/google on Next.js and @fontsource-variable/geist everywhere else.",
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "categories": [
+        "foundations"
+      ],
+      "type": "registry:font",
+      "font": {
+        "family": "'Geist Variable', ui-sans-serif, system-ui, sans-serif",
+        "provider": "google",
+        "import": "Geist",
+        "variable": "--font-sans",
+        "subsets": [
+          "latin"
+        ],
+        "dependency": "@fontsource-variable/geist"
+      }
+    },
+    {
+      "name": "font-geist-mono",
+      "title": "Geist Mono",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Geist Mono as the project's --font-mono. Uses next/font/google on Next.js and @fontsource-variable/geist-mono everywhere else.",
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "categories": [
+        "foundations"
+      ],
+      "type": "registry:font",
+      "font": {
+        "family": "'Geist Mono Variable', ui-monospace, SFMono-Regular, Menlo, monospace",
+        "provider": "google",
+        "import": "Geist_Mono",
+        "variable": "--font-mono",
+        "subsets": [
+          "latin"
+        ],
+        "dependency": "@fontsource-variable/geist-mono"
+      }
+    },
+    {
+      "name": "use-mobile",
+      "title": "useIsMobile",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Boolean hook that is true below the md breakpoint (768px by default). Safe for SSR: false on the server and first render, then live via matchMedia.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/hooks/use-mobile.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "categories": [
+        "hooks"
+      ],
+      "type": "registry:hook"
+    },
+    {
+      "name": "use-media-query",
+      "title": "useMediaQuery",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Subscribe to any CSS media query with useSyncExternalStore. Returns false on the server, tracks the query live on the client. No hydration mismatch.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/hooks/use-media-query.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "categories": [
+        "hooks"
+      ],
+      "type": "registry:hook"
+    },
+    {
+      "name": "use-debounce",
+      "title": "useDebounce / useDebouncedCallback",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Debounce a value or a callback. useDebounce returns the value after it stops changing; useDebouncedCallback returns a stable function that runs the latest callback after the delay.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/hooks/use-debounce.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "categories": [
+        "hooks"
+      ],
+      "type": "registry:hook"
+    },
+    {
+      "name": "use-copy-to-clipboard",
+      "title": "useCopyToClipboard",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Copy text to the clipboard and get a short-lived status (idle, copied, error) to drive a Copy button label. Resets automatically.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/hooks/use-copy-to-clipboard.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "categories": [
+        "hooks"
+      ],
+      "type": "registry:hook"
+    },
+    {
+      "name": "use-stepper",
+      "title": "useStepper",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "State machine for multi-step flows: current step, next/back/skip/goTo, completed and skipped sets, progress fraction, optional steps and onComplete. Typed by your step ids.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/hooks/use-stepper.ts",
+          "type": "registry:hook"
+        }
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "categories": [
+        "hooks"
+      ],
+      "type": "registry:hook"
+    },
+    {
+      "name": "format-date",
+      "title": "Format Date",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Locale-aware date formatting with presets (short, medium, long, datetime, time) and formatRelative for '3 minutes ago'. Intl only, zero dependencies.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/lib/format-date.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "categories": [
+        "lib"
+      ],
+      "type": "registry:lib"
+    },
+    {
+      "name": "format-currency",
+      "title": "Format Currency",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Format prices from minor units (cents) the way payment APIs return them, with locale and currency options, plus formatCompact for 1.2K-style numbers. Intl only.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/lib/format-currency.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "categories": [
+        "lib"
+      ],
+      "type": "registry:lib"
+    },
+    {
+      "name": "absolute-url",
+      "title": "Absolute Url",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Build absolute URLs for the current deployment from a path, detecting the origin from NEXT_PUBLIC_APP_URL, VITE_APP_URL, APP_URL, VERCEL_URL or window.location. For OG images, emails and webhooks.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/lib/absolute-url.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "categories": [
+        "lib"
+      ],
+      "type": "registry:lib"
+    },
+    {
+      "name": "slugify",
+      "title": "Slugify",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "URL-safe slugs: strips accents, lowercases, collapses separators, optional max length; uniqueSlug appends -2, -3 against a taken set.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/lib/slugify.ts",
+          "type": "registry:lib"
+        }
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "categories": [
+        "lib"
+      ],
+      "type": "registry:lib"
+    },
+    {
+      "name": "tanfust-demo",
+      "title": "tanfust demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Type specimen and token swatches for the Tanfust base.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/tanfust-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    },
+    {
+      "name": "theme-tanfust-demo",
+      "title": "theme-tanfust demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Token swatches for the Tanfust theme.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/tanfust-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    },
+    {
+      "name": "font-geist-sans-demo",
+      "title": "font-geist-sans demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Geist Sans and Geist Mono specimens.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/font-geist-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    },
+    {
+      "name": "font-geist-mono-demo",
+      "title": "font-geist-mono demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Geist Sans and Geist Mono specimens.",
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/font-geist-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    },
+    {
+      "name": "use-mobile-demo",
+      "title": "use-mobile demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Shows whether the viewport is below 768px.",
+      "registryDependencies": [
+        "@tanfust/use-mobile"
+      ],
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/use-mobile-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    },
+    {
+      "name": "use-media-query-demo",
+      "title": "use-media-query demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Live results for four common media queries.",
+      "registryDependencies": [
+        "@tanfust/use-media-query"
+      ],
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/use-media-query-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    },
+    {
+      "name": "use-debounce-demo",
+      "title": "use-debounce demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "A search input showing the live and debounced value side by side.",
+      "registryDependencies": [
+        "@tanfust/use-debounce"
+      ],
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/use-debounce-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    },
+    {
+      "name": "use-copy-to-clipboard-demo",
+      "title": "use-copy-to-clipboard demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "A copy button with a self-resetting Copied state.",
+      "registryDependencies": [
+        "@tanfust/use-copy-to-clipboard"
+      ],
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/use-copy-to-clipboard-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    },
+    {
+      "name": "use-stepper-demo",
+      "title": "use-stepper demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "A four-step wizard with an optional step, progress bar and reset.",
+      "registryDependencies": [
+        "@tanfust/use-stepper"
+      ],
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/use-stepper-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    },
+    {
+      "name": "format-date-demo",
+      "title": "format-date demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "formatDate presets in several locales, plus formatRelative.",
+      "registryDependencies": [
+        "@tanfust/format-date"
+      ],
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/format-date-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    },
+    {
+      "name": "format-currency-demo",
+      "title": "format-currency demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "formatCurrency across currencies and locales, plus formatCompact.",
+      "registryDependencies": [
+        "@tanfust/format-currency"
+      ],
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/format-currency-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    },
+    {
+      "name": "absolute-url-demo",
+      "title": "absolute-url demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "absoluteUrl with an explicit base and with origin detection.",
+      "registryDependencies": [
+        "@tanfust/absolute-url"
+      ],
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/absolute-url-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    },
+    {
+      "name": "slugify-demo",
+      "title": "slugify demo",
+      "author": "Tanfust <https://tanfust.com>",
+      "description": "Live slugify with maxLength and uniqueSlug.",
+      "registryDependencies": [
+        "@tanfust/slugify"
+      ],
+      "files": [
+        {
+          "path": "src/registry/tanfust/examples/slugify-demo.tsx",
+          "type": "registry:component"
+        }
+      ],
+      "categories": [
+        "examples"
+      ],
+      "type": "registry:example"
+    }
+  ]
 }

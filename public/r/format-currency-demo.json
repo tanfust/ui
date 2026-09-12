@@ -1,0 +1,21 @@
+{
+  "$schema": "https://ui.shadcn.com/schema/registry-item.json",
+  "name": "format-currency-demo",
+  "title": "format-currency demo",
+  "author": "Tanfust <https://tanfust.com>",
+  "description": "formatCurrency across currencies and locales, plus formatCompact.",
+  "registryDependencies": [
+    "@tanfust/format-currency"
+  ],
+  "files": [
+    {
+      "path": "src/registry/tanfust/examples/format-currency-demo.tsx",
+      "content": "import { formatCompact, formatCurrency } from \"@/registry/tanfust/lib/format-currency\"\n\nexport default function FormatCurrencyDemo() {\n  const rows: Array<[string, string]> = [\n    [\"formatCurrency(1999)\", formatCurrency(1999)],\n    ['formatCurrency(1999, { currency: \"EUR\", locale: \"fr-FR\" })', formatCurrency(1999, { currency: \"EUR\", locale: \"fr-FR\" })],\n    ['formatCurrency(4900, { currency: \"TND\", locale: \"fr-TN\" })', formatCurrency(4900, { currency: \"TND\", locale: \"fr-TN\" })],\n    [\"formatCurrency(2000, { trimZeros: true })\", formatCurrency(2000, { trimZeros: true })],\n    [\"formatCurrency(19.99, { minorUnits: false })\", formatCurrency(19.99, { minorUnits: false })],\n    [\"formatCompact(1200)\", formatCompact(1200)],\n    [\"formatCompact(3_400_000)\", formatCompact(3_400_000)],\n  ]\n  return (\n    <dl className=\"grid w-full max-w-lg grid-cols-1 gap-y-2 font-mono text-xs sm:grid-cols-[1fr_auto] sm:gap-x-6\">\n      {rows.map(([code, out]) => (\n        <div className=\"contents\" key={code}>\n          <dt className=\"truncate text-muted-foreground\">{code}</dt>\n          <dd className=\"sm:text-right\">{out}</dd>\n        </div>\n      ))}\n    </dl>\n  )\n}\n",
+      "type": "registry:component"
+    }
+  ],
+  "categories": [
+    "examples"
+  ],
+  "type": "registry:example"
+}

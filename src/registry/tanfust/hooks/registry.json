@@ -1,4 +1,105 @@
 {
   "$schema": "https://ui.shadcn.com/schema/registry.json",
-  "items": []
+  "items": [
+    {
+      "name": "use-mobile",
+      "type": "registry:hook",
+      "title": "useIsMobile",
+      "description": "Boolean hook that is true below the md breakpoint (768px by default). Safe for SSR: false on the server and first render, then live via matchMedia.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "hooks"
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "files": [
+        {
+          "path": "use-mobile.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "use-media-query",
+      "type": "registry:hook",
+      "title": "useMediaQuery",
+      "description": "Subscribe to any CSS media query with useSyncExternalStore. Returns false on the server, tracks the query live on the client. No hydration mismatch.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "hooks"
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "files": [
+        {
+          "path": "use-media-query.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "use-debounce",
+      "type": "registry:hook",
+      "title": "useDebounce / useDebouncedCallback",
+      "description": "Debounce a value or a callback. useDebounce returns the value after it stops changing; useDebouncedCallback returns a stable function that runs the latest callback after the delay.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "hooks"
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "files": [
+        {
+          "path": "use-debounce.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "use-copy-to-clipboard",
+      "type": "registry:hook",
+      "title": "useCopyToClipboard",
+      "description": "Copy text to the clipboard and get a short-lived status (idle, copied, error) to drive a Copy button label. Resets automatically.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "hooks"
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "files": [
+        {
+          "path": "use-copy-to-clipboard.ts",
+          "type": "registry:hook"
+        }
+      ]
+    },
+    {
+      "name": "use-stepper",
+      "type": "registry:hook",
+      "title": "useStepper",
+      "description": "State machine for multi-step flows: current step, next/back/skip/goTo, completed and skipped sets, progress fraction, optional steps and onComplete. Typed by your step ids.",
+      "author": "Tanfust <https://tanfust.com>",
+      "categories": [
+        "hooks"
+      ],
+      "meta": {
+        "tier": "free",
+        "version": "1.0.0"
+      },
+      "files": [
+        {
+          "path": "use-stepper.ts",
+          "type": "registry:hook"
+        }
+      ]
+    }
+  ]
 }
