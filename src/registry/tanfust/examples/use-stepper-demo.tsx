@@ -28,16 +28,22 @@ export default function UseStepperDemo() {
         ))}
       </ol>
 
-      <div aria-hidden className="h-1 w-full bg-muted">
-        <div
-          className="h-full bg-foreground transition-all"
-          style={{ width: `${stepper.progress * 100}%` }}
-        />
+      {/* One segment per step rather than a percentage-width bar: a stepper is
+          discrete, and this needs no inline style for a runtime value. */}
+      <div aria-hidden className="flex h-1 w-full gap-px">
+        {stepper.steps.map((step, i) => (
+          <span
+            className={
+              i <= stepper.index ? "flex-1 bg-foreground" : "flex-1 bg-muted"
+            }
+            key={step}
+          />
+        ))}
       </div>
 
       <p>
         Step {stepper.index + 1} of {stepper.steps.length}:{" "}
-        <strong>{stepper.current}</strong>
+        <strong>{stepper.current}</strong> · {Math.round(stepper.progress * 100)}%
       </p>
 
       <div className="flex gap-2">
