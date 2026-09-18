@@ -1,7 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router"
 
-import { buttonClasses } from "@/components/site/button"
-import { Rule } from "@/components/site/rule"
+import { stampClasses } from "@/components/site/stamp"
+import { Separator } from "@/components/ui/separator"
+import { buttonVariants } from "@/components/ui/button"
 import { SectionHeader } from "@/components/site/section-header"
 import { siteConfig } from "@/config/site"
 import { CATEGORIES, getItemsByCategory } from "@/lib/registry"
@@ -20,18 +21,25 @@ function Home() {
 
   return (
     <>
-      <section aria-labelledby="hero-heading" className="border-b border-foreground">
-        <div className="flex items-center justify-between px-6 py-4 font-mono text-[10px] uppercase tracking-wider">
+      <section
+        aria-labelledby="hero-heading"
+        className="border-b border-foreground"
+      >
+        <div
+          className={stampClasses({
+            className: "flex items-center justify-between px-6 py-4",
+          })}
+        >
           <span>Vol. I</span>
           <span>The Registry</span>
           <span>MMXXVI</span>
         </div>
 
-        <Rule variant="double" />
+        <Separator />
 
         <div className="px-6 py-16 md:py-24">
           <h1
-            className="text-5xl font-black uppercase leading-[0.92] tracking-[-0.04em] sm:text-7xl md:text-8xl"
+            className="text-5xl leading-display font-black tracking-display uppercase sm:text-7xl md:text-8xl"
             id="hero-heading"
           >
             Tanfust
@@ -39,18 +47,21 @@ function Home() {
             UI.
           </h1>
 
-          <ul className="mt-12 flex flex-col gap-2 font-mono text-xs uppercase tracking-wider">
+          <ul className="mt-12 flex flex-col gap-2 font-mono text-xs tracking-wider uppercase">
             <li>&gt; Essentials for everyday sites and apps.</li>
             <li>&gt; Installed as source. The code is yours.</li>
             <li>&gt; Works with any shadcn project, Radix or Base UI.</li>
           </ul>
 
-          <div className="mt-12 flex flex-wrap items-center gap-3 font-mono text-xs uppercase tracking-wider">
-            <a className={buttonClasses({ size: "sm", variant: "primary" })} href="#install">
+          <div className="mt-12 flex flex-wrap items-center gap-3 font-mono text-xs tracking-wider uppercase">
+            <a
+              className={buttonVariants({ size: "sm", variant: "default" })}
+              href="#install"
+            >
               [ Install → ]
             </a>
             <a
-              className={buttonClasses({ size: "sm", variant: "ghost" })}
+              className={buttonVariants({ size: "sm", variant: "link" })}
               href={siteConfig.links.store}
               rel="noreferrer"
             >
@@ -60,8 +71,16 @@ function Home() {
         </div>
       </section>
 
-      <section aria-labelledby="install" className="border-b border-foreground px-6 py-12">
-        <SectionHeader caption="one command" id="install" number="01" title="Install" />
+      <section
+        aria-labelledby="install"
+        className="border-b border-foreground px-6 py-12"
+      >
+        <SectionHeader
+          caption="one command"
+          id="install"
+          number="01"
+          title="Install"
+        />
         <div className="mt-8 flex flex-col gap-6 font-mono text-xs">
           <Step
             label="Add the namespace once"
@@ -78,8 +97,16 @@ function Home() {
         </div>
       </section>
 
-      <section aria-labelledby="catalog" className="border-b border-foreground px-6 py-12">
-        <SectionHeader caption={`${pad(total)} entries`} id="catalog" number="02" title="Catalog" />
+      <section
+        aria-labelledby="catalog"
+        className="border-b border-foreground px-6 py-12"
+      >
+        <SectionHeader
+          caption={`${pad(total)} entries`}
+          id="catalog"
+          number="02"
+          title="Catalog"
+        />
         <dl className="mt-8 font-mono text-xs">
           {CATEGORIES.map((category, index) => {
             const items = groups.get(category.slug) ?? []
@@ -88,14 +115,18 @@ function Home() {
                 className="grid gap-2 border-t border-foreground py-5 sm:grid-cols-[3rem_10rem_1fr]"
                 key={category.slug}
               >
-                <span aria-hidden className="opacity-60">
+                <span aria-hidden className="opacity-70">
                   {pad(index + 1)}
                 </span>
-                <dt className="uppercase tracking-wider">{category.title}</dt>
+                <dt className="tracking-wider uppercase">{category.title}</dt>
                 <dd className="flex flex-col gap-2">
-                  <span className="text-muted-foreground">{category.description}</span>
+                  <span className="text-muted-foreground">
+                    {category.description}
+                  </span>
                   {items.length === 0 ? (
-                    <span className="uppercase tracking-wider opacity-60">[ coming soon ]</span>
+                    <span className="tracking-wider uppercase opacity-70">
+                      [ coming soon ]
+                    </span>
                   ) : (
                     <ul className="flex flex-wrap gap-x-4 gap-y-1">
                       {items.map((item) => (
@@ -118,14 +149,23 @@ function Home() {
       </section>
 
       <section aria-labelledby="agents" className="px-6 py-12">
-        <SectionHeader caption="mcp · llms.txt" id="agents" number="03" title="For agents" />
+        <SectionHeader
+          caption="mcp · llms.txt"
+          id="agents"
+          number="03"
+          title="For agents"
+        />
         <div className="mt-8 flex flex-col gap-6 font-mono text-xs">
           <p className="max-w-prose leading-relaxed text-muted-foreground">
-            The registry works with the shadcn MCP server out of the box. The catalog is
-            readable at <Mono>/r/registry.json</Mono>, each item at{" "}
-            <Mono>/r/&lt;item&gt;.json</Mono>, and a plain-text index at <Mono>/llms.txt</Mono>.
+            The registry works with the shadcn MCP server out of the box. The
+            catalog is readable at <Mono>/r/registry.json</Mono>, each item at{" "}
+            <Mono>/r/&lt;item&gt;.json</Mono>, and a plain-text index at{" "}
+            <Mono>/llms.txt</Mono>.
           </p>
-          <Step label="Expose it to your agent" command="npx shadcn@latest mcp init --client claude" />
+          <Step
+            label="Expose it to your agent"
+            command="npx shadcn@latest mcp init --client claude"
+          />
         </div>
       </section>
     </>
@@ -135,7 +175,7 @@ function Home() {
 function Step({ label, command }: { label: string; command: string }) {
   return (
     <div className="flex flex-col gap-2">
-      <span className="text-[10px] uppercase tracking-wider">&gt; {label}</span>
+      <span className={stampClasses()}>&gt; {label}</span>
       <pre className="overflow-x-auto border border-foreground px-4 py-3">
         <code>{command}</code>
       </pre>

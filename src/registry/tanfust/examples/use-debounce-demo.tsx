@@ -9,9 +9,11 @@ export default function UseDebounceDemo() {
   return (
     <div className="flex w-full max-w-sm flex-col gap-3 font-mono text-xs">
       <label className="flex flex-col gap-1">
-        <span className="text-[10px] uppercase tracking-wider text-muted-foreground">Type quickly</span>
+        <span className="text-xs tracking-wider text-muted-foreground uppercase">
+          Type quickly
+        </span>
         <input
-          className="h-9 border border-foreground bg-background px-3 outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+          className="h-9 border border-foreground bg-background px-3 outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground focus-visible:outline-solid"
           onChange={(e) => setValue(e.target.value)}
           placeholder="search…"
           value={value}

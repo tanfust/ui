@@ -6,135 +6,212 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* Geist via fontsource (framework-agnostic; same packages our registry:font items name). */
+/* Ink on paper.
+
+   A warm neutral scale, oklch hue 70-85 with chroma <= 0.014, replacing the
+   stock zinc. Paper is never pure white and ink never pure black: on an LCD,
+   #000 on #fff is the one contrast e-ink never shows, and in dark mode pure
+   white on pure black halates.
+
+   The whole block changes together on purpose. Warming the background while
+   borders and muted stayed cool reads as dirt rather than paper.
+
+   Two values are load-bearing rather than aesthetic: --input and --ring are
+   deliberately darker than --border, because a form-field boundary and a focus
+   ring have to clear 3:1 (WCAG 1.4.11) while a decorative hairline does not.
+   The stock palette set all three equal, at 1.27:1.
+
+   Transcribed from tanfust's src/styles.css, which in turn carries
+   docs/paper-theme.md §5. That file is the source of truth: change it there
+   first, then mirror here and into the `tanfust` and `theme-tanfust` items in
+   src/registry/tanfust/foundations/registry.json, which ship these same values
+   to consumers. */
 :root {
-  --font-geist-sans: "Geist Variable", ui-sans-serif, system-ui, sans-serif;
-  --font-geist-mono: "Geist Mono Variable", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --background: oklch(0.965 0.007 85);
+  --foreground: oklch(0.21 0.008 70);
+  --card: oklch(0.975 0.006 85);
+  --card-foreground: oklch(0.21 0.008 70);
+  --popover: oklch(0.975 0.006 85);
+  --popover-foreground: oklch(0.21 0.008 70);
+  --primary: oklch(0.21 0.008 70);
+  --primary-foreground: oklch(0.965 0.007 85);
+  --secondary: oklch(0.93 0.009 85);
+  --secondary-foreground: oklch(0.21 0.008 70);
+  --muted: oklch(0.93 0.009 85);
+  --muted-foreground: oklch(0.50 0.014 75);
+  --accent: oklch(0.21 0.008 70);
+  --accent-foreground: oklch(0.965 0.007 85);
+  --destructive: oklch(0.50 0.17 27);
+  --destructive-foreground: oklch(0.965 0.007 85);
+  --border: oklch(0.84 0.012 85);
+  --input: oklch(0.63 0.014 78);
+  --ring: oklch(0.60 0.014 75);
+  --radius: 0;
+
+  /* ui/sidebar.tsx ships referencing these six and base-lyra never declares
+     them. In Tailwind v4 an unknown colour utility generates nothing, so the
+     component is silently unstyled rather than broken. Aliased onto the
+     existing ink-on-paper tokens — nothing here introduces a new colour, and
+     there is deliberately no --sidebar-primary. Carried from tanfust. */
+  --sidebar: oklch(0.975 0.006 85);
+  --sidebar-foreground: oklch(0.21 0.008 70);
+  --sidebar-accent: oklch(0.93 0.009 85);
+  --sidebar-accent-foreground: oklch(0.21 0.008 70);
+  --sidebar-border: oklch(0.84 0.012 85);
+  --sidebar-ring: oklch(0.60 0.014 75);
+
+  /* The five-step grey scale of paper-theme.md §3.1 — "the sixteen-greys idea.
+     More than five series is the wrong chart." tanfust does not ship these:
+     base-lyra's ui/chart.tsx synthesises --color-<key> from its own config and
+     reads no --chart-N. This registry also serves radix-sera consumers, whose
+     chart.tsx does read them, so they are declared here.
+
+     The ramp spans the full range on purpose, so the step nearest either
+     background is low-contrast against it (chart-1 is 1.38:1 on paper,
+     chart-5 is 1.23:1 on night ink). That is inherent to any five-step
+     monochrome scale and is true of shadcn's stock zinc ramp too — series are
+     told apart from each other and from the legend, not from the paper. Do not
+     "fix" one end without the other. Values from
+     `git show 9064fbf:docs/paper-theme.md` in the tanfust repo. */
+  --chart-1: oklch(0.86 0.012 85);
+  --chart-2: oklch(0.70 0.014 78);
+  --chart-3: oklch(0.55 0.014 75);
+  --chart-4: oklch(0.40 0.012 72);
+  --chart-5: oklch(0.27 0.009 70);
 }
 
-/* Tanfust tokens — mirrors tanfust.com (zinc, radius 0.625rem, mono headings).
-   The `tanfust` registry:base item ships these same values to consumers. */
-:root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.141 0.005 285.823);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.141 0.005 285.823);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.141 0.005 285.823);
-  --primary: oklch(0.21 0.006 285.885);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.967 0.001 286.375);
-  --secondary-foreground: oklch(0.21 0.006 285.885);
-  --muted: oklch(0.967 0.001 286.375);
-  --muted-foreground: oklch(0.552 0.016 285.938);
-  --accent: oklch(0.21 0.006 285.885);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.92 0.004 286.32);
-  --input: oklch(0.92 0.004 286.32);
-  --ring: oklch(0.705 0.015 286.067);
-  --chart-1: oklch(0.871 0.006 286.286);
-  --chart-2: oklch(0.552 0.016 285.938);
-  --chart-3: oklch(0.442 0.017 285.786);
-  --chart-4: oklch(0.37 0.013 285.805);
-  --chart-5: oklch(0.274 0.006 286.033);
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.141 0.005 285.823);
-  --sidebar-primary: oklch(0.21 0.006 285.885);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.967 0.001 286.375);
-  --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
-  --sidebar-border: oklch(0.92 0.004 286.32);
-  --sidebar-ring: oklch(0.705 0.015 286.067);
-}
-
+/* Night ink: warm charcoal and off-white, not black and white. */
 .dark {
-  --background: oklch(0.141 0.005 285.823);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.21 0.006 285.885);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.21 0.006 285.885);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.92 0.004 286.32);
-  --primary-foreground: oklch(0.21 0.006 285.885);
-  --secondary: oklch(0.274 0.006 286.033);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.274 0.006 286.033);
-  --muted-foreground: oklch(0.705 0.015 286.067);
-  --accent: oklch(0.92 0.004 286.32);
-  --accent-foreground: oklch(0.21 0.006 285.885);
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.552 0.016 285.938);
-  --chart-1: oklch(0.871 0.006 286.286);
-  --chart-2: oklch(0.552 0.016 285.938);
-  --chart-3: oklch(0.442 0.017 285.786);
-  --chart-4: oklch(0.37 0.013 285.805);
-  --chart-5: oklch(0.274 0.006 286.033);
-  --sidebar: oklch(0.21 0.006 285.885);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.274 0.006 286.033);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.552 0.016 285.938);
+  --background: oklch(0.19 0.007 70);
+  --foreground: oklch(0.93 0.009 85);
+  --card: oklch(0.23 0.007 70);
+  --card-foreground: oklch(0.93 0.009 85);
+  --popover: oklch(0.23 0.007 70);
+  --popover-foreground: oklch(0.93 0.009 85);
+  --primary: oklch(0.93 0.009 85);
+  --primary-foreground: oklch(0.19 0.007 70);
+  --secondary: oklch(0.29 0.008 70);
+  --secondary-foreground: oklch(0.93 0.009 85);
+  --muted: oklch(0.29 0.008 70);
+  --muted-foreground: oklch(0.72 0.013 80);
+  --accent: oklch(0.93 0.009 85);
+  --accent-foreground: oklch(0.19 0.007 70);
+  --destructive: oklch(0.70 0.16 25);
+  --destructive-foreground: oklch(0.19 0.007 70);
+  --border: oklch(0.93 0.009 85 / 16%);
+  --input: oklch(0.93 0.009 85 / 40%);
+  --ring: oklch(0.58 0.014 75);
+  --sidebar: oklch(0.23 0.007 70);
+  --sidebar-foreground: oklch(0.93 0.009 85);
+  --sidebar-accent: oklch(0.29 0.008 70);
+  --sidebar-accent-foreground: oklch(0.93 0.009 85);
+  --sidebar-border: oklch(0.93 0.009 85 / 16%);
+  --sidebar-ring: oklch(0.58 0.014 75);
+  --chart-1: oklch(0.86 0.012 85);
+  --chart-2: oklch(0.70 0.014 78);
+  --chart-3: oklch(0.55 0.014 75);
+  --chart-4: oklch(0.40 0.012 72);
+  --chart-5: oklch(0.27 0.009 70);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-border: var(--border);
-  --color-input: var(--input);
   --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  --font-heading: var(--font-geist-mono);
+
+  --font-sans: 'Geist Variable', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'Geist Mono Variable', ui-monospace, SFMono-Regular, monospace;
+}
+
+/* The typographic scale the interface actually uses, named. Every value here
+   is the one that was previously written inline as an arbitrary value, so
+   nothing renders differently — the scale just has names now, and drift shows
+   up as a lint error instead of a new magic number.
+
+   --text-2xs is the "stamp": mono, uppercase, wide-tracked labels, which is
+   the dominant voice of the site. The display leading and tracking belong to
+   headline-sized type only.
+
+   A plain @theme, not @theme inline: `inline` suppresses emission of the
+   variable itself, which would leave var(--text-2xs) undefined for any CSS
+   written by hand. tanfust splits the two blocks for the same reason. */
+@theme {
+  --text-2xs: 0.625rem;
+  --text-2xs--line-height: 1.6;
+  --text-10xl: 9rem;
+  --text-10xl--line-height: 0.92;
+
+  --tracking-display: -0.04em;
+
+  --leading-heading: 1.05;
+  --leading-display: 0.92;
+}
+
+/* Long code blocks skip layout and paint while off-screen. The reserved size
+   keeps the scrollbar honest before a block has ever been rendered. Tailwind
+   ships no content-visibility utility, so it is declared here rather than set
+   inline on the element. */
+@utility content-deferred {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 200px;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border outline-ring;
   }
+
   html {
     @apply font-sans;
   }
+
+  /* tanfust drops this because its ShellFrame paints the background on every
+     route. A div's background does not propagate to the canvas, so overscroll
+     shows browser white — a flash in dark mode. Kept deliberately. */
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* Reduced motion means fewer and gentler animations, not none: colour and
+   opacity still carry meaning, so they keep their timing. Movement, scaling and
+   blur are what cause sickness, so those collapse to an instant change rather
+   than being removed — an element that animates into place must still arrive. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-property: opacity, color, background-color, border-color,
+      text-decoration-color, fill, stroke !important;
+    scroll-behavior: auto !important;
   }
 }

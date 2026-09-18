@@ -4,6 +4,7 @@ import { useCopyToClipboard } from "@/registry/tanfust/hooks/use-copy-to-clipboa
 import { PACKAGE_MANAGERS } from "@/lib/install"
 import type { PackageManager } from "@/lib/install"
 import { cn } from "@/lib/utils"
+import { stampClasses } from "@/components/site/stamp"
 
 const STORAGE_KEY = "tanfust-ui:pm"
 
@@ -25,7 +26,9 @@ export function CommandBlock({
 
   React.useEffect(() => {
     try {
-      const saved = window.localStorage.getItem(STORAGE_KEY) as PackageManager | null
+      const saved = window.localStorage.getItem(
+        STORAGE_KEY
+      ) as PackageManager | null
       if (saved && PACKAGE_MANAGERS.includes(saved)) setPm(saved)
     } catch {
       /* private mode etc. */
@@ -45,14 +48,26 @@ export function CommandBlock({
 
   return (
     <div className={cn("flex flex-col gap-2 font-mono text-xs", className)}>
-      {label ? <span className="text-[10px] uppercase tracking-wider">&gt; {label}</span> : null}
+      {label ? <span className={stampClasses()}>&gt; {label}</span> : null}
       <div className="border border-foreground">
-        <div className="flex items-center justify-between border-b border-foreground px-3 text-[10px] uppercase tracking-wider">
-          <div className="flex gap-3" role="tablist" aria-label="Package manager">
+        <div
+          className={stampClasses({
+            className:
+              "flex items-center justify-between border-b border-foreground px-3",
+          })}
+        >
+          <div
+            className="flex gap-3"
+            role="tablist"
+            aria-label="Package manager"
+          >
             {PACKAGE_MANAGERS.map((p) => (
               <button
                 aria-selected={p === pm}
-                className={cn("h-8 underline-offset-4 hover:underline", p === pm && "font-bold underline")}
+                className={cn(
+                  "h-8 underline-offset-4 hover:underline",
+                  p === pm && "font-bold underline"
+                )}
                 key={p}
                 onClick={() => choose(p)}
                 role="tab"
@@ -67,7 +82,11 @@ export function CommandBlock({
             onClick={() => copy(text)}
             type="button"
           >
-            {state === "copied" ? "[ copied ]" : state === "error" ? "[ failed ]" : "[ copy ]"}
+            {state === "copied"
+              ? "[ copied ]"
+              : state === "error"
+                ? "[ failed ]"
+                : "[ copy ]"}
           </button>
         </div>
         <pre className="overflow-x-auto px-4 py-3">

@@ -16,9 +16,9 @@ Item payloads: https://ui.tanfust.com/r/<item>.json
 
 ## Items (13)
 
-- [tanfust](https://ui.tanfust.com/r/tanfust.json) (registry:base) — The Tanfust design system as one install: zinc palette, 0.625rem radius, Geist Sans for text, Geist Mono for headings and labels, inverted bold menus, and the @tanfust registry pre-registered in components.json. Works with Radix or Base UI — it does not pin a primitive library.
+- [tanfust](https://ui.tanfust.com/r/tanfust.json) (registry:base) — The Tanfust design system as one install: an ink-on-paper warm neutral palette (oklch hue 70-85), square corners, the named type scale, Geist Sans for text, Geist Mono for labels, inverted bold menus, and the @tanfust registry pre-registered in components.json. Works with Radix or Base UI — it does not pin a primitive library.
   `npx shadcn@latest add @tanfust/tanfust`
-- [theme-tanfust](https://ui.tanfust.com/r/theme-tanfust.json) (registry:theme) — Only the colour tokens of the Tanfust design system (zinc, light and dark) plus the 0.625rem radius. Use it to restyle an existing shadcn project without changing fonts or menus.
+- [theme-tanfust](https://ui.tanfust.com/r/theme-tanfust.json) (registry:theme) — Only the colour tokens of the Tanfust design system — an ink-on-paper warm neutral palette (light and dark) — plus square corners. Use it to restyle an existing shadcn project without changing fonts or menus.
   `npx shadcn@latest add @tanfust/theme-tanfust`
 - [font-geist-sans](https://ui.tanfust.com/r/font-geist-sans.json) (registry:font) — Geist Sans as the project's --font-sans. Uses next/font/google on Next.js and @fontsource-variable/geist everywhere else.
   `npx shadcn@latest add @tanfust/font-geist-sans`

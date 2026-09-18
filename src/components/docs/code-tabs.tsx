@@ -2,6 +2,7 @@ import * as React from "react"
 
 import { useCopyToClipboard } from "@/registry/tanfust/hooks/use-copy-to-clipboard"
 import { cn } from "@/lib/utils"
+import { stampClasses } from "@/components/site/stamp"
 
 export type CodeFile = { path: string; target?: string; content: string }
 
@@ -14,12 +15,20 @@ export function CodeTabs({ files }: { files: Array<CodeFile> }) {
 
   return (
     <div className="border border-foreground font-mono text-xs">
-      <div className="flex flex-wrap items-center justify-between gap-2 border-b border-foreground px-3 text-[10px] uppercase tracking-wider">
+      <div
+        className={stampClasses({
+          className:
+            "flex flex-wrap items-center justify-between gap-2 border-b border-foreground px-3",
+        })}
+      >
         <div className="flex flex-wrap gap-3" role="tablist" aria-label="Files">
           {files.map((f, i) => (
             <button
               aria-selected={i === active}
-              className={cn("h-8 underline-offset-4 hover:underline", i === active && "font-bold underline")}
+              className={cn(
+                "h-8 underline-offset-4 hover:underline",
+                i === active && "font-bold underline"
+              )}
               key={f.path}
               onClick={() => setActive(i)}
               role="tab"
@@ -30,13 +39,21 @@ export function CodeTabs({ files }: { files: Array<CodeFile> }) {
           ))}
         </div>
         <div className="flex items-center gap-3">
-          {file.target ? <span className="hidden text-muted-foreground sm:inline">→ {file.target}</span> : null}
-          <button className="h-8 underline-offset-4 hover:underline" onClick={() => copy(file.content)} type="button">
+          {file.target ? (
+            <span className="hidden text-muted-foreground sm:inline">
+              → {file.target}
+            </span>
+          ) : null}
+          <button
+            className="h-8 underline-offset-4 hover:underline"
+            onClick={() => copy(file.content)}
+            type="button"
+          >
             {state === "copied" ? "[ copied ]" : "[ copy ]"}
           </button>
         </div>
       </div>
-      <pre className="max-h-[32rem] overflow-auto px-4 py-3 leading-relaxed">
+      <pre className="max-h-[32rem] overflow-auto px-4 py-3 leading-relaxed content-deferred">
         <code>{file.content}</code>
       </pre>
     </div>

@@ -1,4 +1,5 @@
-import { Rule } from "@/components/site/rule"
+import { stampClasses } from "@/components/site/stamp"
+import { Separator } from "@/components/ui/separator"
 import { siteConfig } from "@/config/site"
 
 const footerNav = [
@@ -16,14 +17,18 @@ const socialNav = [
   { label: "GitHub", href: "https://github.com/tanfust" },
 ] as const
 
+// `min-h-6` is load-bearing, not decoration: at `text-2xs` these links render
+// a 15px-tall hit area, which fails the 24x24 minimum for touch targets on
+// every page. `inline-flex items-center` keeps the label and its underline
+// optically where they were while the box grows around them.
 const linkClass =
-  "underline underline-offset-4 hover:no-underline focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
+  "inline-flex min-h-6 items-center underline underline-offset-4 hover:no-underline focus-visible:outline-solid focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
 
 /** Footer — mirrors tanfust.com's colophon so the two sites read as one publication. */
 export function Colophon() {
   return (
-    <footer className="px-6 py-10 font-mono text-[10px] uppercase tracking-wider">
-      <Rule variant="double" />
+    <footer className={stampClasses({ className: "px-6 py-10" })}>
+      <Separator />
 
       <div className="mt-6 flex flex-col gap-2">
         <p>Tanfust UI · Issue 001 · MMXXVI</p>
@@ -48,10 +53,17 @@ export function Colophon() {
           <ul className="flex items-center gap-2">
             {socialNav.map((item, index) => (
               <li className="flex items-center gap-2" key={item.label}>
-                <a className={linkClass} href={item.href} rel="noreferrer" target="_blank">
+                <a
+                  className={linkClass}
+                  href={item.href}
+                  rel="noreferrer"
+                  target="_blank"
+                >
                   {item.label}
                 </a>
-                {index < socialNav.length - 1 ? <span aria-hidden>/</span> : null}
+                {index < socialNav.length - 1 ? (
+                  <span aria-hidden>/</span>
+                ) : null}
               </li>
             ))}
           </ul>

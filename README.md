@@ -45,7 +45,7 @@ a usage example.
 
 | Category | Items |
 |---|---|
-| **Foundations** | `tanfust` — the design system as one `init` (zinc, 0.625rem radius, Geist, inverted bold menus, namespace pre-registered) · `theme-tanfust` · `font-geist-sans` · `font-geist-mono` |
+| **Foundations** | `tanfust` — the design system as one `init` (ink-on-paper warm neutral palette, square corners, the named type scale, Geist, inverted bold menus, namespace pre-registered) · `theme-tanfust` · `font-geist-sans` · `font-geist-mono` |
 | **Hooks** | `use-mobile` · `use-media-query` · `use-debounce` · `use-copy-to-clipboard` · `use-stepper` |
 | **Lib** | `format-date` · `format-currency` · `absolute-url` · `slugify` — Intl-based, zero dependencies |
 | **Flows** | next: onboarding wizard, account & team settings — a page, its components, hooks and provider-agnostic actions as one install |

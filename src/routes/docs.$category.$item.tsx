@@ -6,6 +6,7 @@ import { CommandBlock } from "@/components/docs/command-block"
 import { Preview } from "@/components/docs/preview"
 import { OpenInV0Button } from "@/components/open-in-v0-button"
 import { SectionHeader } from "@/components/site/section-header"
+import { stampClasses } from "@/components/site/stamp"
 import { siteConfig } from "@/config/site"
 import { addCommand, initCommand, itemUrl } from "@/lib/install"
 import { getItem } from "@/lib/item.functions"
@@ -15,7 +16,8 @@ export const Route = createFileRoute("/docs/$category/$item")({
   loader: async ({ params }) => {
     const summary = getRegistryItem(params.item)
     const category = CATEGORIES.find((c) => c.slug === params.category)
-    if (!summary || !category || categoryOf(summary) !== category.slug) throw notFound()
+    if (!summary || !category || categoryOf(summary) !== category.slug)
+      throw notFound()
     const item = await getItem({ data: params.item })
     if (!item) throw notFound()
     return { item, category }
@@ -23,8 +25,13 @@ export const Route = createFileRoute("/docs/$category/$item")({
   head: ({ loaderData }) => ({
     meta: loaderData
       ? [
-          { title: `${loaderData.item.title ?? loaderData.item.name} — ${siteConfig.name}` },
-          { name: "description", content: loaderData.item.description ?? siteConfig.description },
+          {
+            title: `${loaderData.item.title ?? loaderData.item.name} — ${siteConfig.name}`,
+          },
+          {
+            name: "description",
+            content: loaderData.item.description ?? siteConfig.description,
+          },
         ]
       : [],
   }),
@@ -44,7 +51,12 @@ function ItemPage() {
   return (
     <article className="flex max-w-4xl flex-col gap-12">
       <header className="flex flex-col gap-4">
-        <p className="flex flex-wrap items-center gap-2 font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
+        <p
+          className={stampClasses({
+            className:
+              "flex flex-wrap items-center gap-2 text-muted-foreground",
+          })}
+        >
           <a className="underline-offset-4 hover:underline" href="/docs">
             Docs
           </a>
@@ -56,7 +68,9 @@ function ItemPage() {
           <span>{item.type.replace("registry:", "")}</span>
           {meta.version ? <span>· v{meta.version}</span> : null}
         </p>
-        <h1 className="text-4xl font-black tracking-[-0.04em] sm:text-5xl">{item.title ?? item.name}</h1>
+        <h1 className="text-4xl font-black tracking-display sm:text-5xl">
+          {item.title ?? item.name}
+        </h1>
         {item.description ? (
           <p className="max-w-prose font-mono text-xs leading-relaxed text-muted-foreground">
             {item.description}
@@ -65,7 +79,9 @@ function ItemPage() {
         <div className="flex flex-wrap items-center gap-3">
           <OpenInV0Button url={itemUrl(item.name)} />
           <a
-            className="font-mono text-[10px] uppercase tracking-wider underline underline-offset-4 hover:no-underline"
+            className={stampClasses({
+              className: "underline underline-offset-4 hover:no-underline",
+            })}
             href={`/r/${item.name}.json`}
           >
             registry-item.json ↗
@@ -75,18 +91,28 @@ function ItemPage() {
 
       {hasPreview ? (
         <section className="flex flex-col gap-6">
-          <SectionHeader caption={`${item.name}-demo`} number="01" title="Preview" />
+          <SectionHeader
+            caption={`${item.name}-demo`}
+            number="01"
+            title="Preview"
+          />
           <Preview name={item.name} />
         </section>
       ) : null}
 
       <section className="flex flex-col gap-6">
-        <SectionHeader caption={siteConfig.namespace} number="02" title="Install" />
+        <SectionHeader
+          caption={siteConfig.namespace}
+          number="02"
+          title="Install"
+        />
         {item.type === "registry:base" ? (
           <>
             <p className="font-mono text-xs leading-relaxed text-muted-foreground">
-              A base is applied with <code className="text-foreground">init</code>, in a new or existing
-              project. It writes components.json, the tokens and fonts, and registers the namespace.
+              A base is applied with{" "}
+              <code className="text-foreground">init</code>, in a new or
+              existing project. It writes components.json, the tokens and fonts,
+              and registers the namespace.
             </p>
             <CommandBlock command={initCommand} />
           </>
@@ -117,7 +143,9 @@ function ItemPage() {
       {item.type === "registry:base" && "config" in item && item.config ? (
         <Json number="03" title="components.json" value={item.config} />
       ) : null}
-      {item.cssVars ? <Json number="04" title="CSS variables" value={item.cssVars} /> : null}
+      {item.cssVars ? (
+        <Json number="04" title="CSS variables" value={item.cssVars} />
+      ) : null}
       {item.css ? <Json number="05" title="CSS" value={item.css} /> : null}
 
       {registryDeps.length + deps.length > 0 ? (
@@ -126,7 +154,9 @@ function ItemPage() {
           <dl className="grid gap-4 font-mono text-xs sm:grid-cols-[10rem_1fr]">
             {registryDeps.length > 0 ? (
               <>
-                <dt className="uppercase tracking-wider text-muted-foreground">Registry</dt>
+                <dt className="tracking-wider text-muted-foreground uppercase">
+                  Registry
+                </dt>
                 <dd className="flex flex-wrap gap-x-4 gap-y-1">
                   {registryDeps.map((dep) => (
                     <DepLink dep={dep} key={dep} />
@@ -136,7 +166,9 @@ function ItemPage() {
             ) : null}
             {deps.length > 0 ? (
               <>
-                <dt className="uppercase tracking-wider text-muted-foreground">npm</dt>
+                <dt className="tracking-wider text-muted-foreground uppercase">
+                  npm
+                </dt>
                 <dd className="flex flex-wrap gap-x-4 gap-y-1">
                   {deps.map((dep) => (
                     <a
@@ -164,7 +196,10 @@ function DepLink({ dep }: { dep: string }) {
     const item = getRegistryItem(name)
     const slug = item ? categoryOf(item) : undefined
     return slug ? (
-      <a className="underline underline-offset-4 hover:no-underline" href={`/docs/${slug}/${name}`}>
+      <a
+        className="underline underline-offset-4 hover:no-underline"
+        href={`/docs/${slug}/${name}`}
+      >
         {dep}
       </a>
     ) : (
@@ -173,7 +208,11 @@ function DepLink({ dep }: { dep: string }) {
   }
   if (dep.startsWith("http")) {
     return (
-      <a className="underline underline-offset-4 hover:no-underline" href={dep} rel="noreferrer">
+      <a
+        className="underline underline-offset-4 hover:no-underline"
+        href={dep}
+        rel="noreferrer"
+      >
         {dep}
       </a>
     )
@@ -189,7 +228,15 @@ function DepLink({ dep }: { dep: string }) {
   )
 }
 
-function Json({ number, title, value }: { number: string; title: string; value: unknown }) {
+function Json({
+  number,
+  title,
+  value,
+}: {
+  number: string
+  title: string
+  value: unknown
+}) {
   return (
     <section className="flex flex-col gap-6">
       <SectionHeader number={number} title={title} />

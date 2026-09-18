@@ -2,6 +2,7 @@ import * as React from "react"
 
 import { Index } from "@/__registry__/index"
 import type { IndexEntry } from "@/__registry__/index"
+import { stampClasses } from "@/components/site/stamp"
 
 /** Renders `<name>-demo` from the generated index inside a bordered frame. */
 export function Preview({ name }: { name: string }) {
@@ -12,7 +13,13 @@ export function Preview({ name }: { name: string }) {
   return (
     <div className="flex min-h-[16rem] items-center justify-center border border-foreground p-6 sm:p-10">
       <React.Suspense
-        fallback={<span className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">loading…</span>}
+        fallback={
+          <span
+            className={stampClasses({ className: "text-muted-foreground" })}
+          >
+            loading…
+          </span>
+        }
       >
         <Component />
       </React.Suspense>

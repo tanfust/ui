@@ -9,7 +9,13 @@ type SectionHeaderProps = {
 }
 
 /** `[NN] TITLE ---------- caption` — the chapter heading from tanfust.agency. */
-export function SectionHeader({ caption, className, id, number, title }: SectionHeaderProps) {
+export function SectionHeader({
+  caption,
+  className,
+  id,
+  number,
+  title,
+}: SectionHeaderProps) {
   return (
     <div className={cn("flex flex-col gap-3", className)}>
       <div className="flex items-baseline gap-3 font-mono text-xs tracking-wider">
@@ -17,9 +23,12 @@ export function SectionHeader({ caption, className, id, number, title }: Section
         <h2 className="font-mono text-sm uppercase" id={id}>
           {title}
         </h2>
-        <span aria-hidden className="flex-1 self-center border-t border-dashed border-foreground" />
+        <span
+          aria-hidden
+          className="flex-1 self-center border-t border-dashed border-foreground"
+        />
         {caption ? (
-          <span aria-hidden className="text-[10px] uppercase">
+          <span aria-hidden className="text-2xs uppercase">
             {caption}
           </span>
         ) : null}
