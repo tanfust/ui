@@ -18,10 +18,22 @@ REGISTRY_URL="http://127.0.0.1:$PORT/r/{name}.json"
 rm -rf "$APP_DIR"
 mkdir -p "$SMOKE_DIR"
 
+# Refuse to run against a server this script did not start. A leftover one
+# serves the current files on disk but with the Content-Length and ETag from
+# its own build, so a grown item arrives truncated and the CLI fails with an
+# opaque "Unterminated string in JSON".
+if curl -fsS -o /dev/null "http://127.0.0.1:$PORT/r/registry.json" 2>/dev/null; then
+  echo "✖ something is already serving :$PORT — stop it first (lsof -nP -iTCP:$PORT -sTCP:LISTEN)"
+  exit 1
+fi
+
 echo "▸ serving registry on :$PORT"
-(cd "$ROOT" && PORT="$PORT" node .output/server/index.mjs >"$SMOKE_DIR/server-$BASE.log" 2>&1) &
+# `exec` so the subshell is replaced by node and $! is node's own pid. Without
+# it the trap kills the wrapper and leaks the server, which the next run then
+# silently talks to.
+(cd "$ROOT" && exec env PORT="$PORT" node .output/server/index.mjs >"$SMOKE_DIR/server-$BASE.log" 2>&1) &
 SERVER_PID=$!
-trap 'kill $SERVER_PID 2>/dev/null || true' EXIT
+trap 'kill "$SERVER_PID" 2>/dev/null || true' EXIT
 
 for _ in $(seq 1 30); do
   if curl -fsS "http://127.0.0.1:$PORT/r/registry.json" >/dev/null 2>&1; then break; fi

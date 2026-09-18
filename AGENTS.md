@@ -16,7 +16,8 @@ https://ui.shadcn.com/docs/registry — read them before changing item definitio
 | `public/r/` | **Generated** by `pnpm registry:build`. Committed. CI fails if stale (`pnpm registry:check`) |
 | `src/__registry__/index.tsx` | **Generated** lazy import map of `registry:example` items for docs previews. Git-ignored |
 | `src/routes/`, `src/components/`, `src/lib/` | The docs site (TanStack Start). It reads `public/r/*.json` — never hand-maintain item lists |
-| `src/components/site/` | Chrome shared with tanfust.com: shell, masthead, colophon, section-header, rule, button |
+| `src/components/site/` | Chrome shared with tanfust.com: shell, shell-frame, masthead, colophon, section-header, stamp |
+| `src/components/ui/` | shadcn primitives on **base-lyra** (Base UI), taken as shipped. Docs-site only — never shipped by the registry |
 | `scripts/build-registry.mjs` | validate → build → `__registry__` → `public/llms.txt` |
 | `scripts/smoke-install.sh` | Installs every item into a fresh Base UI or Radix consumer and typechecks it |
 
@@ -57,8 +58,22 @@ Commit `public/r` together with the source change that produced it. Do not edit 
 Brutalist Mono, the same visual language as tanfust.com: bordered centre column, indexed sections
 `[NN]`, mono type except the headline, semantic tokens only (`bg-background`, `text-foreground`,
 `border-foreground` — never raw black/white), bracketed CTAs `[ Label → ]`, typographic glyphs
-instead of icon libraries, light by default with dark mode via `next-themes` (`d` hotkey). Zinc,
-radius `0.625rem`, Geist Sans for body, Geist Mono for headings and labels.
+instead of icon libraries, light by default with dark mode via `next-themes` (`d` hotkey).
+**Ink on paper** — a warm neutral oklch scale (hue 70-85, chroma ≤ 0.014), `--radius: 0`,
+Geist Sans for body, Geist Mono for labels. `--input` and `--ring` are deliberately darker
+than `--border`: a field boundary and a focus ring clear 3:1 (WCAG 1.4.11), a hairline need
+not. Secondary text uses `text-muted-foreground` or `opacity-70`, never `opacity-60` or lower.
+
+Use `stampClasses()` from `@/components/site/stamp` rather than retyping `font-mono
+uppercase tracking-wider`, and the named scale (`text-2xs`, `tracking-display`,
+`leading-display`) rather than arbitrary values. Buttons and rules come from
+`@/components/ui/{button,separator}`; `buttonVariants()` on a `<Link>` or `<a>`, never
+`<Button render={<Link/>}>` — Base UI's `Button` puts `type="button"` on the anchor.
+The variant names rotated with base-lyra: filled is `default`, bordered is `outline`, and
+the underline-on-hover one is `link`.
+
+tanfust.com is the source of truth for all of this — its `docs/design.md` and
+`docs/paper-theme.md` carry the reasoning. Change it there first.
 
 Item pages are generated: preview (`<item>-demo`), install command (package-manager tabs), source
 per file, then font/config/cssVars/css blocks when present, then dependencies.
