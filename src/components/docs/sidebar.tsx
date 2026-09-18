@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router"
 
 import { CATEGORIES, getItemsByCategory } from "@/lib/registry"
 import { cn } from "@/lib/utils"
+import { stampClasses } from "@/components/site/stamp"
 
 const pad = (n: number) => String(n).padStart(2, "0")
 
@@ -16,7 +17,7 @@ export function DocsSidebar() {
         <li>
           <Link
             className={cn(
-              "uppercase tracking-wider underline-offset-4 hover:underline",
+              "tracking-wider uppercase underline-offset-4 hover:underline",
               pathname === "/docs" && "font-bold underline"
             )}
             to="/docs"
@@ -28,11 +29,15 @@ export function DocsSidebar() {
           const items = groups.get(category.slug) ?? []
           return (
             <li className="flex flex-col gap-2" key={category.slug}>
-              <span className="uppercase tracking-wider">
+              <span className="tracking-wider uppercase">
                 [{pad(i + 1)}] {category.title}
               </span>
               {items.length === 0 ? (
-                <span className="pl-4 text-[10px] uppercase tracking-wider opacity-60">coming soon</span>
+                <span
+                  className={stampClasses({ className: "pl-4", dim: true })}
+                >
+                  coming soon
+                </span>
               ) : (
                 <ul className="flex flex-col gap-1 border-l border-border pl-4">
                   {items.map((item) => {
@@ -44,7 +49,9 @@ export function DocsSidebar() {
                           aria-current={active ? "page" : undefined}
                           className={cn(
                             "underline-offset-4 hover:underline",
-                            active ? "font-bold underline" : "text-muted-foreground hover:text-foreground"
+                            active
+                              ? "font-bold underline"
+                              : "text-muted-foreground hover:text-foreground"
                           )}
                           href={href}
                         >

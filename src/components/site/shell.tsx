@@ -2,22 +2,27 @@ import type { ReactNode } from "react"
 
 import { Colophon } from "@/components/site/colophon"
 import { Masthead } from "@/components/site/masthead"
-import { cn } from "@/lib/utils"
+import { ShellFrame } from "@/components/site/shell-frame"
 
 /**
- * Page frame: full-height background, the bordered centre column, masthead,
- * `<main>` landmark and colophon. Same structure as tanfust.agency's
- * `ShellFrame` + `Shell`, collapsed into one component since nothing here is
- * server-only.
+ * Page frame with chrome. Owns the masthead, the `<main>` landmark and the
+ * colophon so no page can nest chrome inside `<main>` — `<header>`/`<footer>`
+ * only expose their `banner`/`contentinfo` roles while they sit outside it.
+ *
+ * Components that need the frame without chrome use `ShellFrame` directly.
  */
-export function Shell({ children, className }: { children: ReactNode; className?: string }) {
+export function Shell({
+  children,
+  className,
+}: {
+  children: ReactNode
+  className?: string
+}) {
   return (
-    <div className={cn("min-h-screen bg-background text-foreground", className)}>
-      <div className="mx-auto flex min-h-screen w-full max-w-5xl flex-col border-x border-foreground">
-        <Masthead />
-        <main className="flex flex-1 flex-col">{children}</main>
-        <Colophon />
-      </div>
-    </div>
+    <ShellFrame className={className}>
+      <Masthead />
+      <main className="flex flex-1 flex-col">{children}</main>
+      <Colophon />
+    </ShellFrame>
   )
 }

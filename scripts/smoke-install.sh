@@ -36,7 +36,7 @@ ITEMS=$(node -e '
 ' "$ROOT/public/r/registry.json")
 
 echo "▸ creating consumer app ($BASE)"
-(cd "$SMOKE_DIR" && npx --yes shadcn@latest init --template vite --base "$BASE" --preset sera --name "consumer-$BASE" --no-monorepo --yes)
+(cd "$SMOKE_DIR" && npx --yes shadcn@latest init --template vite --base "$BASE" --preset lyra --name "consumer-$BASE" --no-monorepo --yes)
 test -d "$APP_DIR" || { echo "✖ consumer app was not created"; exit 1; }
 
 cd "$APP_DIR"

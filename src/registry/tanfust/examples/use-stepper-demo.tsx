@@ -7,7 +7,7 @@ export default function UseStepperDemo() {
 
   return (
     <div className="flex w-full max-w-md flex-col gap-4 font-mono text-xs">
-      <ol className="flex items-center gap-2 text-[10px] uppercase tracking-wider">
+      <ol className="flex items-center gap-2 text-xs tracking-wider uppercase">
         {stepper.steps.map((step, i) => (
           <li className="flex items-center gap-2" key={step}>
             <button
@@ -29,16 +29,20 @@ export default function UseStepperDemo() {
       </ol>
 
       <div aria-hidden className="h-1 w-full bg-muted">
-        <div className="h-full bg-foreground transition-all" style={{ width: `${stepper.progress * 100}%` }} />
+        <div
+          className="h-full bg-foreground transition-all"
+          style={{ width: `${stepper.progress * 100}%` }}
+        />
       </div>
 
       <p>
-        Step {stepper.index + 1} of {stepper.steps.length}: <strong>{stepper.current}</strong>
+        Step {stepper.index + 1} of {stepper.steps.length}:{" "}
+        <strong>{stepper.current}</strong>
       </p>
 
       <div className="flex gap-2">
         <button
-          className="border border-foreground px-3 py-1 uppercase tracking-wider disabled:opacity-40"
+          className="border border-foreground px-3 py-1 tracking-wider uppercase disabled:opacity-40"
           disabled={stepper.isFirst}
           onClick={stepper.back}
           type="button"
@@ -46,12 +50,16 @@ export default function UseStepperDemo() {
           Back
         </button>
         {stepper.canSkip ? (
-          <button className="border border-transparent px-3 py-1 uppercase tracking-wider underline-offset-4 hover:underline" onClick={stepper.skip} type="button">
+          <button
+            className="border border-transparent px-3 py-1 tracking-wider uppercase underline-offset-4 hover:underline"
+            onClick={stepper.skip}
+            type="button"
+          >
             Skip
           </button>
         ) : null}
         <button
-          className="border border-foreground bg-foreground px-3 py-1 uppercase tracking-wider text-background"
+          className="border border-foreground bg-foreground px-3 py-1 tracking-wider text-background uppercase"
           onClick={stepper.isLast ? stepper.reset : stepper.next}
           type="button"
         >

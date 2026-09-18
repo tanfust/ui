@@ -2,6 +2,7 @@ import { Link, useRouterState } from "@tanstack/react-router"
 
 import { ModeToggle } from "@/components/site/mode-toggle"
 import { siteConfig } from "@/config/site"
+import { stampClasses } from "@/components/site/stamp"
 import { cn } from "@/lib/utils"
 
 const nav: ReadonlyArray<{ label: string; href: string }> = [
@@ -18,12 +19,17 @@ export function Masthead() {
 
   return (
     <header className="border-b border-foreground">
-      <div className="flex flex-wrap items-center justify-between gap-3 px-6 py-3 font-mono text-[10px] uppercase tracking-wider">
+      <div
+        className={stampClasses({
+          className:
+            "flex flex-wrap items-center justify-between gap-3 px-6 py-3",
+        })}
+      >
         <Link
           className="text-sm font-bold tracking-tight focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-foreground"
           to="/"
         >
-          TANFUST <span className="font-normal opacity-60">/ UI</span>
+          TANFUST <span className="font-normal opacity-70">/ UI</span>
         </Link>
 
         <div className="flex flex-wrap items-center gap-3">
@@ -31,7 +37,9 @@ export function Masthead() {
             <ul className="flex items-center gap-2">
               {nav.map((item, index) => {
                 const active =
-                  item.href === "/" ? pathname === "/" : pathname.startsWith(item.href)
+                  item.href === "/"
+                    ? pathname === "/"
+                    : pathname.startsWith(item.href)
                 return (
                   <li className="flex items-center gap-2" key={item.href}>
                     <a
@@ -47,7 +55,11 @@ export function Masthead() {
               })}
               <li className="flex items-center gap-2">
                 <span aria-hidden>/</span>
-                <a className={linkClass} href={siteConfig.links.tanfust} rel="noreferrer">
+                <a
+                  className={linkClass}
+                  href={siteConfig.links.tanfust}
+                  rel="noreferrer"
+                >
                   tanfust.com ↗
                 </a>
               </li>
