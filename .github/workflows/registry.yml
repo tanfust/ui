@@ -25,6 +25,7 @@ jobs:
         run: pnpm registry:check
       - run: pnpm lint
       - run: pnpm typecheck
+      - run: pnpm test
       - run: pnpm build
         env:
           VITE_BASE_URL: https://ui.tanfust.com

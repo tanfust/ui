@@ -22,13 +22,13 @@ Requires Node 22+ and pnpm 10 (`corepack enable` picks up the pinned version).
    `foundations/`. Import shadcn primitives from `@/components/ui/<name>` and other Tanfust items
    from `@/registry/tanfust/...`; the CLI rewrites both on install.
 2. Describe it in that category's `registry.json`: `name` (kebab-case, flat), `type`, `title`, a
-   `description` written for people *and* LLMs, `author`, `categories`, `meta.version`, and
+   `description` written for people _and_ LLMs, `author`, `categories`, `meta.version`, and
    `files`. Reference other Tanfust items as `@tanfust/<name>`, shadcn items by bare name.
 3. Add `src/registry/tanfust/examples/<name>-demo.tsx` (default export, renders without a backend)
    and register it in `examples/registry.json` as `registry:example`. It becomes the docs preview
    and the usage example the MCP server returns.
-4. Run `pnpm registry:build`, then `pnpm lint && pnpm typecheck && pnpm build`. Commit the
-   regenerated `public/r/` together with your change — CI fails if it is stale.
+4. Run `pnpm registry:build`, then `pnpm lint && pnpm typecheck && pnpm test && pnpm build`.
+   Commit the regenerated `public/r/` together with your change — CI fails if it is stale.
 5. Open a pull request. CI validates the registry, builds the site, and smoke-installs every item
    into fresh Base UI and Radix projects.
 
