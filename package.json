@@ -42,7 +42,8 @@
     "registry:validate": "shadcn registry validate",
     "registry:build": "node scripts/build-registry.mjs",
     "registry:check": "pnpm registry:build && git diff --exit-code -- public/r",
-    "smoke": "bash scripts/smoke-install.sh"
+    "smoke": "bash scripts/smoke-install.sh",
+    "contract": "bash scripts/check-contract.sh"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

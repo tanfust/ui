@@ -29,6 +29,8 @@ jobs:
       - run: pnpm build
         env:
           VITE_BASE_URL: https://ui.tanfust.com
+      - name: Registry contract (catalog, item payloads, shadcn root negotiation)
+        run: pnpm contract
       - uses: actions/upload-artifact@v4
         with:
           name: start-build

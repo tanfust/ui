@@ -43,12 +43,12 @@ a usage example.
 
 ## What's inside
 
-| Category | Items |
-|---|---|
+| Category        | Items                                                                                                                                                                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | **Foundations** | `tanfust` — the design system as one `init` (ink-on-paper warm neutral palette, square corners, the named type scale, Geist, inverted bold menus, namespace pre-registered) · `theme-tanfust` · `font-geist-sans` · `font-geist-mono` |
-| **Hooks** | `use-mobile` · `use-media-query` · `use-debounce` · `use-copy-to-clipboard` · `use-stepper` |
-| **Lib** | `format-date` · `format-currency` · `absolute-url` · `slugify` — Intl-based, zero dependencies |
-| **Flows** | next: onboarding wizard, account & team settings — a page, its components, hooks and provider-agnostic actions as one install |
+| **Hooks**       | `use-mobile` · `use-media-query` · `use-debounce` · `use-copy-to-clipboard` · `use-stepper`                                                                                                                                           |
+| **Lib**         | `format-date` · `format-currency` · `absolute-url` · `slugify` — Intl-based, zero dependencies                                                                                                                                        |
+| **Flows**       | next: onboarding wizard, account & team settings — a page, its components, hooks and provider-agnostic actions as one install                                                                                                         |
 
 The registry stays small on purpose. If most sites or apps would not need it, it does not go in.
 
@@ -63,7 +63,8 @@ The registry stays small on purpose. If most sites or apps would not need it, it
 generates the preview index and `llms.txt`. The docs site (TanStack Start, deployed on Cloudflare)
 renders its pages from those same payloads, so the site can never disagree with what the CLI
 installs. CI rebuilds, fails on a stale `public/r/`, and smoke-installs every item into fresh
-Base UI and Radix projects.
+Base UI and Radix projects. See [`docs/deployment.md`](docs/deployment.md) for how that Cloudflare
+deployment relates to what this repository actually builds.
 
 ## Develop
 

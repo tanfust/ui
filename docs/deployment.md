@@ -1,0 +1,115 @@
+# Deployment
+
+This records what actually serves `https://ui.tanfust.com` today, why the
+repository does not build that thing, and the invariants that keep the two in
+sync anyway. Update it in the same commit as any change to
+`vite.config.ts`'s build target, `public/_headers`, or `src/start.ts`.
+
+## What serves the site today
+
+`https://ui.tanfust.com` is deployed on **Cloudflare Workers with static
+assets**. Measured with read-only `GET`s on 2026-09-19:
+
+| Request                                               | Result                                                                                                                                                     |
+| ----------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `GET /r/registry.json`                                | `200`, `server: cloudflare`, `cf-cache-status: HIT`, `access-control-allow-origin: *`, `cache-control: public, max-age=300, s-maxage=3600`, `vary: Accept` |
+| `GET /llms.txt`                                       | `200`, `cf-cache-status: HIT`, same cache rule                                                                                                             |
+| `GET /` with `Accept: application/vnd.shadcn.v1+json` | `200`, returns the catalog JSON (`.name === "tanfust"`)                                                                                                    |
+| `GET /`, ordinary browser `Accept`                    | `200 text/html`, **no** `cache-control`, **no** `cf-cache-status`                                                                                          |
+
+That split is the signature of Workers Static Assets: `public/` (the registry
+JSON under `/r`, `llms.txt`) is served as static assets with `_headers`
+applied and `cf-cache-status: HIT` on repeat requests, while `/`, `/docs`, and
+item pages are rendered by the Worker on every request — no edge cache, no
+`_headers`. Both are working correctly; this file exists to explain the shape,
+not to fix anything.
+
+## Where the deploy configuration lives
+
+**Outside this repository.** The operator has confirmed the site is already
+deployed and its configuration — the Workers Builds project or dashboard
+settings that turn a build into what's live at `ui.tanfust.com` — is not
+checked in here, in any `wrangler.jsonc`, or in `.github/workflows/`.
+
+**Open question: the value of `assets.run_worker_first`.** This is not
+recorded anywhere accessible from this repo, and it matters: see
+[Invariant 2](#2-a-matching-static-asset-shadows-the-worker) below. Nobody
+should guess at it. Whoever has access to the live deploy configuration needs
+to state it explicitly before `plans/005-static-prerendering.md` is
+attempted — that plan would add an `/index.html` asset, and whether the
+`shadcnRootNegotiation` middleware still runs for `/` after that depends
+entirely on this setting.
+
+## This repo builds a Node server, not a Worker
+
+`vite.config.ts` calls `nitro()` with no preset, so the default `node-server`
+preset applies: `pnpm build` produces `.output/server/index.mjs`, and
+`pnpm start` runs it with plain Node. There is no `@cloudflare/vite-plugin`,
+no `wrangler` dependency, and no `wrangler.jsonc`. CI (`.github/workflows/registry.yml`)
+builds and uploads that Node output; it never touches workerd.
+
+This has **not** been "fixed" by pointing Nitro at a `cloudflare` preset,
+because `scripts/smoke-install.sh` boots `.output/server/index.mjs` directly
+to serve the registry for the smoke-install tests — the build target and the
+smoke test move together, and swapping one without the other breaks CI in a
+way that has nothing to do with the registry itself.
+
+It is also not a one-line preset swap. The current TanStack Start hosting
+docs describe a Workers target built with `@cloudflare/vite-plugin` plus a
+`wrangler.jsonc` whose `main` points at
+`@tanstack/react-start/server-entry` —
+<https://tanstack.com/start/latest/docs/framework/react/guide/hosting> — not
+a Nitro `cloudflare` preset. Migrating this repo to build the same artifact
+Cloudflare actually runs is real work: a new plugin, a new config file, and a
+rewrite of the smoke-install lifecycle. It is deliberately deferred (see
+"Maintenance notes" in `plans/004-deploy-config-parity.md`), and
+`scripts/check-contract.sh` (below) exists so that migration has a safety net
+when someone picks it up.
+
+## Invariants
+
+Two things about the live deployment are load-bearing. Anything that touches
+`vite.config.ts`'s build target, `public/_headers`, or `src/start.ts` must
+preserve both.
+
+### 1. `_headers` applies to static assets only, never to Worker responses
+
+Per Cloudflare's docs — <https://developers.cloudflare.com/workers/static-assets/headers> —
+_"Custom headers defined in the `_headers` file are not applied to responses
+generated by your Worker code."_ `public/_headers` sets CORS and
+`Cache-Control` for `/r/*` and `/llms.txt`, which are served as static
+assets. It says nothing about `/`, `/docs`, or item pages, because those are
+rendered by the Worker. That is why `src/start.ts`'s `shadcnRootNegotiation`
+middleware sets its own `Cache-Control` header inline on the JSON response it
+returns for `/` — there is no other way for that response to carry one.
+
+### 2. A matching static asset shadows the Worker
+
+Cloudflare Workers with static assets serves a request that matches a file
+under `public/` **without invoking the Worker**, unless
+`assets.run_worker_first` says otherwise —
+<https://developers.cloudflare.com/workers/static-assets>. `GET /` currently
+reaches the Worker (and therefore `shadcnRootNegotiation`, and therefore
+`npx shadcn@latest add https://ui.tanfust.com`) only because no `/index.html`
+asset exists in `public/` today. Anything that creates one — static
+prerendering above all, see `plans/005-static-prerendering.md` — would cause
+Cloudflare to answer `/` from that static file instead, silently bypassing the
+content negotiation, **unless** `assets.run_worker_first` is configured to
+include `/`. Given the open question above, that configuration is unverified.
+Plan 005 should not proceed until it is.
+
+## How to check it
+
+```bash
+pnpm contract                                            # against a local `pnpm build`
+bash scripts/check-contract.sh https://ui.tanfust.com    # against production
+bash scripts/check-contract.sh https://ui.tanfust.com --production-headers  # + CORS/cache-control
+```
+
+`scripts/check-contract.sh` asserts the registry catalog and item payloads
+are reachable as JSON, that the shadcn root negotiation answers the shadcn
+CLI's `Accept`/`User-Agent` signals, and that ordinary browser requests to
+`/` still get HTML. The `--production-headers` flag additionally checks the
+CORS and `Cache-Control` headers that only `public/_headers` on Cloudflare
+applies — they are meaningless against the local Node server, which never
+sees that file.
