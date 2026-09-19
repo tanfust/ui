@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router"
+import { createFileRoute, Link } from "@tanstack/react-router"
 
 import { stampClasses } from "@/components/site/stamp"
 import { Separator } from "@/components/ui/separator"
@@ -131,12 +131,16 @@ function Home() {
                     <ul className="flex flex-wrap gap-x-4 gap-y-1">
                       {items.map((item) => (
                         <li key={item.name}>
-                          <a
+                          <Link
                             className="underline underline-offset-4 hover:no-underline"
-                            href={`/docs/${category.slug}/${item.name}`}
+                            params={{
+                              category: category.slug,
+                              item: item.name,
+                            }}
+                            to="/docs/$category/$item"
                           >
                             {item.name}
-                          </a>
+                          </Link>
                         </li>
                       ))}
                     </ul>

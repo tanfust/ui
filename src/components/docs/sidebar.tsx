@@ -1,14 +1,12 @@
-import { Link, useRouterState } from "@tanstack/react-router"
+import { Link } from "@tanstack/react-router"
 
 import { CATEGORIES, getItemsByCategory } from "@/lib/registry"
-import { cn } from "@/lib/utils"
 import { stampClasses } from "@/components/site/stamp"
 
 const pad = (n: number) => String(n).padStart(2, "0")
 
 /** Category → items navigation, generated from the built catalog. */
 export function DocsSidebar() {
-  const pathname = useRouterState({ select: (s) => s.location.pathname })
   const groups = getItemsByCategory()
 
   return (
@@ -16,10 +14,9 @@ export function DocsSidebar() {
       <ul className="flex flex-col gap-6">
         <li>
           <Link
-            className={cn(
-              "tracking-wider uppercase underline-offset-4 hover:underline",
-              pathname === "/docs" && "font-bold underline"
-            )}
+            activeOptions={{ exact: true }}
+            activeProps={{ className: "font-bold underline" }}
+            className="tracking-wider uppercase underline-offset-4 hover:underline"
             to="/docs"
           >
             [00] Installation
@@ -41,22 +38,23 @@ export function DocsSidebar() {
               ) : (
                 <ul className="flex flex-col gap-1 border-l border-border pl-4">
                   {items.map((item) => {
-                    const href = `/docs/${category.slug}/${item.name}`
-                    const active = pathname === href
                     return (
                       <li key={item.name}>
-                        <a
-                          aria-current={active ? "page" : undefined}
-                          className={cn(
-                            "underline-offset-4 hover:underline",
-                            active
-                              ? "font-bold underline"
-                              : "text-muted-foreground hover:text-foreground"
-                          )}
-                          href={href}
+                        <Link
+                          activeProps={{
+                            "aria-current": "page",
+                            className: "font-bold underline",
+                          }}
+                          className="underline-offset-4 hover:underline"
+                          inactiveProps={{
+                            className:
+                              "text-muted-foreground hover:text-foreground",
+                          }}
+                          params={{ category: category.slug, item: item.name }}
+                          to="/docs/$category/$item"
                         >
                           {item.name}
-                        </a>
+                        </Link>
                       </li>
                     )
                   })}

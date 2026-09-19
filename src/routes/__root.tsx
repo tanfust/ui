@@ -1,5 +1,6 @@
 import {
   HeadContent,
+  Link,
   Outlet,
   Scripts,
   createRootRoute,
@@ -55,9 +56,12 @@ function NotFound() {
         Not found.
       </h1>
       <p className="mt-6 text-xs tracking-wider uppercase">
-        <a className="underline underline-offset-4 hover:no-underline" href="/">
+        <Link
+          className="underline underline-offset-4 hover:no-underline"
+          to="/"
+        >
           [ Back to the registry → ]
-        </a>
+        </Link>
       </p>
     </section>
   )

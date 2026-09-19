@@ -1,4 +1,4 @@
-import { createFileRoute, notFound } from "@tanstack/react-router"
+import { createFileRoute, Link, notFound } from "@tanstack/react-router"
 
 import { Index } from "@/__registry__/index"
 import { CodeTabs } from "@/components/docs/code-tabs"
@@ -13,6 +13,9 @@ import { getItem } from "@/lib/item.functions"
 import { CATEGORIES, categoryOf, getRegistryItem } from "@/lib/registry"
 
 export const Route = createFileRoute("/docs/$category/$item")({
+  // The payload is built by `pnpm registry:build` and is constant for the
+  // lifetime of a deploy, so a loaded item never needs refetching.
+  staleTime: Infinity,
   loader: async ({ params }) => {
     const summary = getRegistryItem(params.item)
     const category = CATEGORIES.find((c) => c.slug === params.category)
@@ -57,9 +60,9 @@ function ItemPage() {
               "flex flex-wrap items-center gap-2 text-muted-foreground",
           })}
         >
-          <a className="underline-offset-4 hover:underline" href="/docs">
+          <Link className="underline-offset-4 hover:underline" to="/docs">
             Docs
-          </a>
+          </Link>
           <span aria-hidden>/</span>
           <span>{category.title}</span>
           <span aria-hidden>/</span>
@@ -196,12 +199,13 @@ function DepLink({ dep }: { dep: string }) {
     const item = getRegistryItem(name)
     const slug = item ? categoryOf(item) : undefined
     return slug ? (
-      <a
+      <Link
         className="underline underline-offset-4 hover:no-underline"
-        href={`/docs/${slug}/${name}`}
+        params={{ category: slug, item: name }}
+        to="/docs/$category/$item"
       >
         {dep}
-      </a>
+      </Link>
     ) : (
       <span>{dep}</span>
     )

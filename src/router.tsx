@@ -7,7 +7,10 @@ export function getRouter() {
 
     scrollRestoration: true,
     defaultPreload: "intent",
-    defaultPreloadStaleTime: 0,
+    // Deliberately no override for the preload stale-time default: setting
+    // it to 0 exists for handing freshness to an external cache (TanStack
+    // Query), which this site does not use. At 0 every hover-preload is
+    // discarded and refetched on click.
   })
 
   return router
