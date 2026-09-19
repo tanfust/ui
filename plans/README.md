@@ -13,11 +13,11 @@ test runner (plan 003 adds one) and no contract check (plan 004 adds one).
 
 | Plan | Title | Priority | Effort | Risk | Depends on | Status |
 |------|-------|----------|--------|------|------------|--------|
-| 001 | [Navigate with `<Link>` so SPA routing and preloading actually work](001-link-navigation.md) | P1 | S | LOW | — | TODO |
-| 002 | [Stop shipping zod and the shadcn schema to the browser](002-client-bundle-zod.md) | P1 | S | LOW | — | TODO |
-| 003 | [Unit-test the `lib` items that ship into consumers' projects](003-registry-item-tests.md) | P1 | M | LOW | — | TODO |
-| 004 | [Make the repo able to reproduce its own Cloudflare deployment](004-deploy-config-parity.md) | P2 | M | MED | — | TODO |
-| 005 | [Prerender the docs pages to static HTML, without breaking the shadcn root contract](005-static-prerendering.md) | P2 | M | MED | 004 | TODO |
+| 001 | [Navigate with `<Link>` so SPA routing and preloading actually work](001-link-navigation.md) | P1 | S | LOW | — | DONE — branch `perf/link-navigation` |
+| 002 | [Stop shipping zod and the shadcn schema to the browser](002-client-bundle-zod.md) | P1 | S | LOW | — | DONE — branch `perf/client-bundle-zod` |
+| 003 | [Unit-test the `lib` items that ship into consumers' projects](003-registry-item-tests.md) | P1 | M | LOW | — | DONE — branch `test/registry-lib-items` (1 revision round) |
+| 004 | [Make the repo able to reproduce its own Cloudflare deployment](004-deploy-config-parity.md) | P2 | M | MED | — | DONE — branch `chore/deploy-config-parity` |
+| 005 | [Prerender the docs pages to static HTML, without breaking the shadcn root contract](005-static-prerendering.md) | P2 | M | MED | 004 | DONE — branch `perf/static-prerendering` |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale).
@@ -54,6 +54,73 @@ Measured read-only on 2026-09-18 and relied on by plans 004 and 005:
   Nitro's default `node-server` preset, and there is no Wrangler config,
   `@cloudflare/vite-plugin`, or deploy job. The deploy configuration lives
   outside the repo.
+
+## Discovered during execution
+
+- **`main` fails `prettier --check` on 21 committed files** — surfaced by plan
+  001's executor, which correctly refused to run the repo-wide `pnpm format`
+  because it rewrote ~21 out-of-scope files and cascaded into `public/r/*.json`.
+  Affected: `scripts/build-registry.mjs`, `src/lib/registry.ts`, `src/start.ts`,
+  `src/config/site.ts`, `src/lib/install.ts`, `src/lib/registry.server.ts`,
+  `src/components/theme-provider.tsx`, `src/routeTree.gen.ts` (generated), and
+  most of `src/registry/tanfust/**`. CI runs `pnpm lint` but never `pnpm check`,
+  which is why it went unnoticed. Plans 002–005 were amended with a formatting
+  caveat telling executors to scope Prettier to their in-scope files.
+  **Not yet planned**: a one-shot `pnpm format` commit plus a `pnpm check` step
+  in CI. Worth doing, but it must land on its own so the noise does not hide a
+  real change — and note `src/registry/tanfust/**` files are copied verbatim
+  into consumers' projects, so reformatting them is a (cosmetic) change to
+  shipped output.
+
+## All five executed — 2026-09-19
+
+Every plan was executed by a dispatched executor in an isolated worktree and
+reviewed against its done criteria, then **merged into `main`** (fast-forward
+from `9440e8a`) at the maintainer's request. The branches chained, so
+`perf/static-prerendering` carried all five:
+
+```
+b544da5 perf(docs-site): prerender the docs pages at build time
+bb2f64e chore(deploy): document the Cloudflare target and guard the registry contract
+7d82a34 test(lib): fix vacuous assertions in slugify and format-date tests
+1e9157c test(lib): cover the four shipped lib items
+5c8604e perf(docs-site): validate the catalog at build time, not in the browser
+458583d perf(docs-site): navigate with Link instead of raw anchors
+```
+
+21 files, +965 / −79. Verified on the final branch by the reviewer, not the
+executors: `typecheck`, `lint`, `test` (4 files / 32 tests), `registry:check`,
+`build`, `contract` (6/6 local, 8/8 against production), `smoke base` and
+`smoke radix` all pass. Prerender emits 14 HTML pages and **no root
+`index.html`**; a clean rebuild confirmed the shadcn root negotiation survives.
+
+**Open item for the operator**: the value of `assets.run_worker_first` in the
+out-of-repo Wrangler config is still unknown. Plan 005 sidesteps it by
+excluding `/` from prerendering, so no out-of-repo change is required — but
+after deploying, confirm with
+`bash scripts/check-contract.sh https://ui.tanfust.com --production-headers`.
+If `/` ever returns HTML to a shadcn client, `run_worker_first` must include `/`.
+
+## Execution notes
+
+Plans were executed as a **chain**: each branch merged the previous one, so
+`perf/client-bundle-zod` contained 001 + 002, and so on. Review diffs were taken
+against the previous plan's branch, not `main`. The executor worktrees under
+`.claude/worktrees/` were removed after the merge — while they existed they broke
+`pnpm lint`, because `.claude/` is in neither `eslint.config.js`'s ignore list nor
+`.gitignore`, so ESLint walked their build output.
+
+Two defects in the plans themselves were found by executors and fixed here:
+
+- Plans 002–005 told executors to run the repo-wide `pnpm format`, which is
+  unsafe given the pre-existing drift below. Amended to scoped Prettier.
+- Plan 002's done criterion grepped for the bare string `registrySchema` in
+  `src/lib/registry.ts`, contradicting the explanatory comment the same plan
+  asks for. Amended to grep for runtime use (`registrySchema.` / `.parse(`).
+
+Note the amended plan files are **uncommitted**, so executor worktrees still read
+the original committed text — the corrections are passed in the dispatch prompt
+instead.
 
 ## Findings considered and rejected
 

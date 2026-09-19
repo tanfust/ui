@@ -161,7 +161,7 @@ behaviour (the parameter is an *origin*). Pin it as-is; do not "fix" it.
 
 - ESM only (`"type": "module"` in `package.json`), Node 22+, pnpm 10.
 - Prettier: `semi: false`, double quotes, 2-space indent, 80 columns,
-  `trailingComma: "es5"`. Run `pnpm format`.
+  `trailingComma: "es5"`. Run Prettier scoped to the in-scope files — see the formatting caveat above.
 - The `@` alias maps to `./src/*` (`tsconfig.json` `paths`).
 - `tsconfig.json` sets `verbatimModuleSyntax: true` (type imports must be
   `import type`), `noUnusedLocals` and `noUnusedParameters` — an unused import
@@ -169,6 +169,18 @@ behaviour (the parameter is an *origin*). Pin it as-is; do not "fix" it.
 - `eslint.config.js` relaxes several rules for `src/registry/**` because those
   files ship into unknown tsconfigs. Test files live outside that tree and get
   the default TanStack config.
+
+> **Formatting caveat (added 2026-09-19, after plan 001 executed).** Do **not**
+> run the repo-wide `pnpm format`. `main` already has pre-existing Prettier
+> drift: `pnpm check` fails on 21 committed files (including
+> `scripts/build-registry.mjs`, `src/lib/registry.ts`, every
+> `src/registry/tanfust/**` item and `src/routeTree.gen.ts`). A repo-wide
+> `prettier --write` therefore rewrites files outside this plan's scope and, via
+> `registry:build`, cascades into `public/r/*.json`. Instead run Prettier scoped
+> to the files this plan actually touches, e.g.
+> `npx prettier --write <the in-scope files>`, and verify with
+> `npx prettier --check <the in-scope files>`. Fixing the repo-wide drift is a
+> separate change — see `plans/README.md`.
 
 ## Commands you will need
 
@@ -178,7 +190,7 @@ behaviour (the parameter is an *origin*). Pin it as-is; do not "fix" it.
 | Build registry | `pnpm registry:build` | exit 0                         |
 | Typecheck | `pnpm typecheck`         | exit 0, no output               |
 | Lint      | `pnpm lint`              | exit 0, no output               |
-| Format    | `pnpm format`            | exit 0                          |
+| Format    | `npx prettier --write <in-scope files>` | exit 0             |
 | Tests (new) | `pnpm test`            | all pass                        |
 
 ## Scope
@@ -366,7 +378,7 @@ Make it `pnpm lint && pnpm typecheck && pnpm test && pnpm build`.
 Then:
 
 ```bash
-pnpm format
+npx prettier --write vitest.config.ts tests/registry/lib/*.test.ts package.json
 pnpm registry:build
 pnpm lint
 pnpm typecheck

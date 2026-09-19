@@ -122,8 +122,19 @@ exactly where the check belongs.
   script is not linted — but keep its existing style: ESM, double quotes, no
   semicolons, and the `step(name, fn)` helper for each phase.
 - Prettier does not format `scripts/` either (the `format` script globs
-  `**/*.{ts,tsx,js,jsx,mjs}`, which *does* include it — run `pnpm format` and
-  accept its output).
+  `**/*.{ts,tsx,js,jsx,mjs}`, which *does* include it — run Prettier scoped to the in-scope files (see the formatting caveat above)).
+
+> **Formatting caveat (added 2026-09-19, after plan 001 executed).** Do **not**
+> run the repo-wide `pnpm format`. `main` already has pre-existing Prettier
+> drift: `pnpm check` fails on 21 committed files (including
+> `scripts/build-registry.mjs`, `src/lib/registry.ts`, every
+> `src/registry/tanfust/**` item and `src/routeTree.gen.ts`). A repo-wide
+> `prettier --write` therefore rewrites files outside this plan's scope and, via
+> `registry:build`, cascades into `public/r/*.json`. Instead run Prettier scoped
+> to the files this plan actually touches, e.g.
+> `npx prettier --write <the in-scope files>`, and verify with
+> `npx prettier --check <the in-scope files>`. Fixing the repo-wide drift is a
+> separate change — see `plans/README.md`.
 
 ## Commands you will need
 
@@ -290,7 +301,7 @@ not, fix it; if all are and the string persists, STOP and report.
 ### Step 6: Final checks
 
 ```bash
-pnpm format
+npx prettier --write src/lib/registry.ts scripts/build-registry.mjs
 pnpm registry:check
 pnpm typecheck
 pnpm lint
@@ -310,7 +321,11 @@ a test framework as part of this plan.
 
 ALL must hold:
 
-- [ ] `grep -n "registrySchema" src/lib/registry.ts` returns no matches
+- [ ] `src/lib/registry.ts` has no *runtime* use of the schema:
+      `grep -n "registrySchema\.\|\.parse(" src/lib/registry.ts` returns no
+      matches. (The doc comment may still mention `registrySchema` by name —
+      that is wanted. An earlier version of this criterion grepped for the bare
+      name and contradicted the comment this plan asks for.)
 - [ ] `grep -n "registrySchema" scripts/build-registry.mjs` returns a match
 - [ ] Every `shadcn/schema` import under `src/` is `import type`
       (`grep -rn "from \"shadcn/schema\"" src/` — each hit is on an

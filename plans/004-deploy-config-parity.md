@@ -171,6 +171,18 @@ This is why the Node preset cannot simply be swapped out: the smoke test boots
   see `AGENTS.md` and `SECURITY.md`. Match that register in `docs/deployment.md`.
 - Conventional Commits.
 
+> **Formatting caveat (added 2026-09-19, after plan 001 executed).** Do **not**
+> run the repo-wide `pnpm format`. `main` already has pre-existing Prettier
+> drift: `pnpm check` fails on 21 committed files (including
+> `scripts/build-registry.mjs`, `src/lib/registry.ts`, every
+> `src/registry/tanfust/**` item and `src/routeTree.gen.ts`). A repo-wide
+> `prettier --write` therefore rewrites files outside this plan's scope and, via
+> `registry:build`, cascades into `public/r/*.json`. Instead run Prettier scoped
+> to the files this plan actually touches, e.g.
+> `npx prettier --write <the in-scope files>`, and verify with
+> `npx prettier --check <the in-scope files>`. Fixing the repo-wide drift is a
+> separate change — see `plans/README.md`.
+
 ## Commands you will need
 
 | Purpose | Command | Expected on success |
@@ -380,7 +392,7 @@ returns no matches.
 ### Step 7: Full check
 
 ```bash
-pnpm format
+npx prettier --write vite.config.ts
 pnpm registry:check
 pnpm lint
 pnpm typecheck
