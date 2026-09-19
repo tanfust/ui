@@ -13,7 +13,11 @@ import { registry } from "@/lib/registry"
 const shadcnRootNegotiation = createMiddleware({ type: "request" }).server(
   async ({ next, request }) => {
     const url = new URL(request.url)
-    if (url.pathname === "/" && request.method === "GET" && isShadcnClient(request)) {
+    if (
+      url.pathname === "/" &&
+      request.method === "GET" &&
+      isShadcnClient(request)
+    ) {
       return Response.json(registry, {
         headers: {
           "Cache-Control": "public, max-age=300, s-maxage=3600",
@@ -28,7 +32,9 @@ const shadcnRootNegotiation = createMiddleware({ type: "request" }).server(
 function isShadcnClient(request: Request) {
   const accept = request.headers.get("accept") ?? ""
   const userAgent = request.headers.get("user-agent") ?? ""
-  return accept.includes("application/vnd.shadcn.v1+json") || userAgent === "shadcn"
+  return (
+    accept.includes("application/vnd.shadcn.v1+json") || userAgent === "shadcn"
+  )
 }
 
 export const startInstance = createStart(() => ({

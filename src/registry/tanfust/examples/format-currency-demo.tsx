@@ -1,12 +1,27 @@
-import { formatCompact, formatCurrency } from "@/registry/tanfust/lib/format-currency"
+import {
+  formatCompact,
+  formatCurrency,
+} from "@/registry/tanfust/lib/format-currency"
 
 export default function FormatCurrencyDemo() {
   const rows: Array<[string, string]> = [
     ["formatCurrency(1999)", formatCurrency(1999)],
-    ['formatCurrency(1999, { currency: "EUR", locale: "fr-FR" })', formatCurrency(1999, { currency: "EUR", locale: "fr-FR" })],
-    ['formatCurrency(4900, { currency: "TND", locale: "fr-TN" })', formatCurrency(4900, { currency: "TND", locale: "fr-TN" })],
-    ["formatCurrency(2000, { trimZeros: true })", formatCurrency(2000, { trimZeros: true })],
-    ["formatCurrency(19.99, { minorUnits: false })", formatCurrency(19.99, { minorUnits: false })],
+    [
+      'formatCurrency(1999, { currency: "EUR", locale: "fr-FR" })',
+      formatCurrency(1999, { currency: "EUR", locale: "fr-FR" }),
+    ],
+    [
+      'formatCurrency(4900, { currency: "TND", locale: "fr-TN" })',
+      formatCurrency(4900, { currency: "TND", locale: "fr-TN" }),
+    ],
+    [
+      "formatCurrency(2000, { trimZeros: true })",
+      formatCurrency(2000, { trimZeros: true }),
+    ],
+    [
+      "formatCurrency(19.99, { minorUnits: false })",
+      formatCurrency(19.99, { minorUnits: false }),
+    ],
     ["formatCompact(1200)", formatCompact(1200)],
     ["formatCompact(3_400_000)", formatCompact(3_400_000)],
   ]

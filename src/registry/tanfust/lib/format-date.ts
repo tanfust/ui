@@ -2,7 +2,8 @@ type DateInput = Date | string | number
 
 function toDate(input: DateInput) {
   const d = input instanceof Date ? input : new Date(input)
-  if (Number.isNaN(d.getTime())) throw new RangeError(`Invalid date: ${String(input)}`)
+  if (Number.isNaN(d.getTime()))
+    throw new RangeError(`Invalid date: ${String(input)}`)
   return d
 }
 
@@ -21,16 +22,29 @@ export function formatDate(
     preset = "medium",
     locale,
     timeZone,
-  }: { preset?: "short" | "medium" | "long" | "datetime" | "time"; locale?: string; timeZone?: string } = {}
+  }: {
+    preset?: "short" | "medium" | "long" | "datetime" | "time"
+    locale?: string
+    timeZone?: string
+  } = {}
 ) {
   const presets: Record<string, Intl.DateTimeFormatOptions> = {
     short: { year: "numeric", month: "2-digit", day: "2-digit" },
     medium: { year: "numeric", month: "short", day: "numeric" },
     long: { year: "numeric", month: "long", day: "numeric" },
-    datetime: { year: "numeric", month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" },
+    datetime: {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    },
     time: { hour: "2-digit", minute: "2-digit" },
   }
-  return new Intl.DateTimeFormat(locale, { ...presets[preset], timeZone }).format(toDate(input))
+  return new Intl.DateTimeFormat(locale, {
+    ...presets[preset],
+    timeZone,
+  }).format(toDate(input))
 }
 
 /**

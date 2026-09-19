@@ -19,7 +19,10 @@ export function addCommand(pm: PackageManager, itemName: string) {
 }
 
 export function registryAddCommand(pm: PackageManager) {
-  return shadcnCommand(pm, `registry add ${siteConfig.namespace}=${siteConfig.registryUrl}`)
+  return shadcnCommand(
+    pm,
+    `registry add ${siteConfig.namespace}=${siteConfig.registryUrl}`
+  )
 }
 
 export function initCommand(pm: PackageManager) {

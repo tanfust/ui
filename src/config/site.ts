@@ -1,4 +1,6 @@
-const baseUrl = (import.meta.env.VITE_BASE_URL as string | undefined) ?? "https://ui.tanfust.com"
+const baseUrl =
+  (import.meta.env.VITE_BASE_URL as string | undefined) ??
+  "https://ui.tanfust.com"
 
 export const siteConfig = {
   name: "Tanfust UI",

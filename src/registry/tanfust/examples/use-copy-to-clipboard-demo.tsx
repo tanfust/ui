@@ -10,7 +10,7 @@ export default function UseCopyToClipboardDemo() {
         <code>{command}</code>
       </pre>
       <button
-        className="border border-foreground bg-foreground px-3 uppercase tracking-wider text-background hover:bg-background hover:text-foreground"
+        className="border border-foreground bg-foreground px-3 tracking-wider text-background uppercase hover:bg-background hover:text-foreground"
         onClick={() => copy(command)}
         type="button"
       >

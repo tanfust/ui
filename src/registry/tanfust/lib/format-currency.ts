@@ -15,7 +15,12 @@ export function formatCurrency(
     locale,
     minorUnits = true,
     trimZeros = false,
-  }: { currency?: string; locale?: string; minorUnits?: boolean; trimZeros?: boolean } = {}
+  }: {
+    currency?: string
+    locale?: string
+    minorUnits?: boolean
+    trimZeros?: boolean
+  } = {}
 ) {
   const value = minorUnits ? amount / 100 : amount
   const wholeNumber = Number.isInteger(value)
@@ -28,6 +33,12 @@ export function formatCurrency(
 }
 
 /** Compact large numbers: 1200 → "1.2K", 3_400_000 → "3.4M". */
-export function formatCompact(value: number, { locale }: { locale?: string } = {}) {
-  return new Intl.NumberFormat(locale, { notation: "compact", maximumFractionDigits: 1 }).format(value)
+export function formatCompact(
+  value: number,
+  { locale }: { locale?: string } = {}
+) {
+  return new Intl.NumberFormat(locale, {
+    notation: "compact",
+    maximumFractionDigits: 1,
+  }).format(value)
 }

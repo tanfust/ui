@@ -22,7 +22,9 @@ function Row({ query }: { query: string }) {
   return (
     <li className="flex items-center justify-between gap-6 border-b border-border pb-2">
       <code>{query}</code>
-      <span className={matches ? "" : "text-muted-foreground"}>{matches ? "[ true ]" : "[ false ]"}</span>
+      <span className={matches ? "" : "text-muted-foreground"}>
+        {matches ? "[ true ]" : "[ false ]"}
+      </span>
     </li>
   )
 }

@@ -29,9 +29,15 @@ export function useStepper<Step extends string>({
   optional = [],
   onComplete,
 }: StepperOptions<Step>) {
-  const [index, setIndex] = React.useState(() => Math.max(0, initial ? steps.indexOf(initial) : 0))
-  const [completed, setCompleted] = React.useState<ReadonlySet<Step>>(() => new Set())
-  const [skipped, setSkipped] = React.useState<ReadonlySet<Step>>(() => new Set())
+  const [index, setIndex] = React.useState(() =>
+    Math.max(0, initial ? steps.indexOf(initial) : 0)
+  )
+  const [completed, setCompleted] = React.useState<ReadonlySet<Step>>(
+    () => new Set()
+  )
+  const [skipped, setSkipped] = React.useState<ReadonlySet<Step>>(
+    () => new Set()
+  )
 
   const current = steps[index]!
   const isFirst = index === 0

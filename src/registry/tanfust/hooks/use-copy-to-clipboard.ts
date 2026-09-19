@@ -10,7 +10,9 @@ type CopyState = "idle" | "copied" | "error"
  * const { copy, state } = useCopyToClipboard()
  * <button onClick={() => copy(command)}>{state === "copied" ? "Copied" : "Copy"}</button>
  */
-export function useCopyToClipboard({ resetAfter = 1500 }: { resetAfter?: number } = {}) {
+export function useCopyToClipboard({
+  resetAfter = 1500,
+}: { resetAfter?: number } = {}) {
   const [state, setState] = React.useState<CopyState>("idle")
   const timer = React.useRef<number | undefined>(undefined)
 

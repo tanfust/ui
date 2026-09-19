@@ -43,7 +43,8 @@ export default function UseStepperDemo() {
 
       <p>
         Step {stepper.index + 1} of {stepper.steps.length}:{" "}
-        <strong>{stepper.current}</strong> · {Math.round(stepper.progress * 100)}%
+        <strong>{stepper.current}</strong> ·{" "}
+        {Math.round(stepper.progress * 100)}%
       </p>
 
       <div className="flex gap-2">

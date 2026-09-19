@@ -2,8 +2,14 @@ import { absoluteUrl } from "@/registry/tanfust/lib/absolute-url"
 
 export default function AbsoluteUrlDemo() {
   const rows: Array<[string, string]> = [
-    ['absoluteUrl("/og.png", "https://app.example.com")', absoluteUrl("/og.png", "https://app.example.com")],
-    ['absoluteUrl("api/webhooks/paddle", "https://app.example.com/")', absoluteUrl("api/webhooks/paddle", "https://app.example.com/")],
+    [
+      'absoluteUrl("/og.png", "https://app.example.com")',
+      absoluteUrl("/og.png", "https://app.example.com"),
+    ],
+    [
+      'absoluteUrl("api/webhooks/paddle", "https://app.example.com/")',
+      absoluteUrl("api/webhooks/paddle", "https://app.example.com/"),
+    ],
     ['absoluteUrl("/")', absoluteUrl("/")],
   ]
   return (
