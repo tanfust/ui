@@ -14,13 +14,21 @@ describe("slugify", () => {
   it("strips accents from explicitly decomposed (NFD) input — regression guard", () => {
     // Guards src/registry/tanfust/lib/slugify.ts:13, where the combining-mark
     // range is typed as raw U+0300-U+036F characters sitting on their own in
-    // the source file (`/[̀-ͯ]/g`), not as `\u{300}-\u{36f}` escapes. Any tool
-    // that NFC-normalises that file would attach those marks to the adjacent
-    // `[` and `-`, silently narrowing or breaking the range. Writing this
-    // input's combining marks as `\u03xx` escapes (rather than pre-composed
-    // characters) means this test file itself cannot be normalised away, so
-    // it keeps failing if the range in slugify.ts is ever mangled.
-    const decomposed = "Crème brûlée  2026"
+    // the source file, not as \u{300}-\u{36f} escapes. Any tool that
+    // NFC-normalises that file would attach those marks to the adjacent `[`
+    // and `-`, silently narrowing or breaking the range.
+    //
+    // The input below is written with literal \u03xx JS escape sequences
+    // (not pre-composed or raw decomposed characters), so the bytes on disk
+    // in *this* file are plain ASCII and immune to normalisation themselves —
+    // the escapes only become combining-mark code points when the JS engine
+    // parses the string literal at test-run time. The assertion right below
+    // double-checks that the resulting string really is decomposed (NFD), so
+    // if a future edit ever pastes in a pre-composed character instead, this
+    // test fails loudly rather than quietly degenerating into a duplicate of
+    // the NFC case above.
+    const decomposed = "Cre\u0300me bru\u0302le\u0301e  2026"
+    expect(decomposed).not.toBe(decomposed.normalize("NFC"))
     expect(slugify(decomposed)).toBe("creme-brulee-2026")
   })
 

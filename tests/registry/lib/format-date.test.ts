@@ -42,22 +42,23 @@ describe("formatDate", () => {
     ).toBe("02:05 PM")
   })
 
-  it("accepts a date string", () => {
+  it("accepts a date string, using the default (medium) preset", () => {
     const result = formatDate("2026-09-12", {
       locale: "en-US",
       timeZone: "UTC",
     })
-    expect(typeof result).toBe("string")
-    expect(result.length).toBeGreaterThan(0)
+    expect(result).toBe("Sep 12, 2026")
   })
 
-  it("accepts a numeric timestamp", () => {
+  it("accepts a numeric timestamp, using the default (medium) preset", () => {
+    // 1757683500000ms is 2025-09-12T13:25:00.000Z — a different instant from
+    // FIXED above, not a typo; it exercises the numeric-input branch of
+    // toDate() with its own real, verified output.
     const result = formatDate(1757683500000, {
       locale: "en-US",
       timeZone: "UTC",
     })
-    expect(typeof result).toBe("string")
-    expect(result.length).toBeGreaterThan(0)
+    expect(result).toBe("Sep 12, 2025")
   })
 
   it("throws a RangeError for invalid input", () => {
@@ -75,11 +76,13 @@ describe("formatRelative", () => {
   })
 
   it("selects years for a difference more than a year apart", () => {
-    // `now` is ~2.19 years after the input. Asserting toContain on the
-    // numeral (rather than the full phrase) because numeric: "auto" renders
-    // a 1-unit difference as a word ("last year"), not a number — a 2-year
-    // gap keeps the numeral in the output so the assertion is stable.
+    // `now` is ~2.19 years after the input. Asserting toContain on "2 years"
+    // (rather than the full phrase, or a bare "2") because numeric: "auto"
+    // renders a 1-unit difference as a word ("last year"), not a number — a
+    // 2-year gap keeps a numeral in the output, and pinning the unit along
+    // with it rules out a false pass from an unrelated "2" elsewhere in the
+    // string (e.g. a stray "2 days").
     const now = new Date(FIXED.getTime() + 800 * 24 * 60 * 60 * 1000)
-    expect(formatRelative(FIXED, { locale: "en-US", now })).toContain("2")
+    expect(formatRelative(FIXED, { locale: "en-US", now })).toContain("2 years")
   })
 })
