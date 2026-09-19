@@ -154,14 +154,39 @@ pnpm format
 This is the one place a repo-wide `pnpm format` is correct — it is the entire
 point of this plan. (Earlier plans forbade it; that guidance does not apply here.)
 
-**Verify**: `pnpm check` → exit 0. Then confirm the change is whitespace-only:
+**Verify**: `pnpm check` → exit 0.
+
+Then confirm nothing was smuggled in alongside the formatting. **Do not use
+`git diff --ignore-all-space`** — that check was in an earlier revision of this
+plan and is unsatisfiable by construction. Prettier makes four changes here that
+are semantically neutral but not whitespace: it *reflows line boundaries* (which
+`--ignore-all-space` cannot collapse), adds *trailing commas* per
+`trailingComma: "es5"`, adds *grouping parentheses* around wrapped expressions
+(e.g. `return (\n  a || b\n)`), and — via `prettier-plugin-tailwindcss` —
+*reorders Tailwind classes* inside `className` strings. Class order in the
+attribute does not affect the generated CSS, so that last one is safe too.
+
+Instead assert the exact property that matters: **every changed file is exactly
+Prettier applied to its previous content**, i.e. no edit rode along with the
+sweep.
 
 ```bash
-git diff --ignore-all-space --stat
+BASE=$(git merge-base HEAD main)
+fail=0
+for f in $(git diff --name-only -- '*.ts' '*.tsx' '*.mjs'); do
+  if diff -q <(git show "$BASE:$f" | npx prettier --stdin-filepath "$f") "$f" >/dev/null 2>&1
+  then echo "OK   $f"
+  else echo "FAIL $f"; fail=1
+  fi
+done
+echo "non-Prettier changes: $fail (0 = none)"
 ```
 
-→ must print **nothing** (no file differs once whitespace is ignored). If any
-file shows a non-whitespace difference, that is a STOP condition.
+→ every file `OK`, and `non-Prettier changes: 0`. Any `FAIL` is a STOP condition.
+
+This check is not vacuous — it was validated by injecting a semantic change
+(`separator = "-"` → `"~"` in `slugify.ts`), re-running Prettier, and confirming
+the check still flagged the file.
 
 **Verify**: `git status --porcelain src/routeTree.gen.ts` → empty (it was
 ignored, not formatted).
@@ -227,7 +252,8 @@ Commit as commit 2.
 ## Done criteria
 
 - [ ] `pnpm check` exits 0
-- [ ] `git diff --ignore-all-space --stat <base>..HEAD -- '*.ts' '*.tsx' '*.mjs'` prints nothing (whitespace-only)
+- [ ] Every changed file is exactly `prettier(previous content)` — the loop in
+      Step 2 reports `non-Prettier changes: 0`
 - [ ] `git status --porcelain src/routeTree.gen.ts` empty; it is listed in `.prettierignore`
 - [ ] `pnpm registry:check` exits 0 and `public/r/*.json` is committed
 - [ ] `pnpm typecheck`, `pnpm lint`, `pnpm build`, `pnpm contract`, `pnpm smoke base` all exit 0
@@ -239,8 +265,8 @@ Commit as commit 2.
 ## STOP conditions
 
 - `pnpm check` fails on a substantially different file count than 19.
-- `git diff --ignore-all-space` shows a **non-whitespace** change — Prettier
-  should never alter semantics; report what changed.
+- The Step 2 loop reports any `FAIL` — something other than Prettier touched a
+  file; report which and what changed.
 - `pnpm test` fails, especially the slugify decomposed-marks guard. That would
   mean formatting mangled the combining-mark range — revert and report
   immediately; do not "fix" the test.
@@ -256,5 +282,6 @@ Commit as commit 2.
 - Reformatting shipped items is a consumer-visible (if cosmetic) change. Anyone
   doing it again should regenerate `public/r` in the same commit; `pnpm registry:check`
   enforces that in CI.
-- Reviewer should scrutinise: that `git diff --ignore-all-space` really is empty
-  (proving whitespace-only), and that no `meta.version` moved.
+- Reviewer should scrutinise: that the Step 2 loop reports `non-Prettier
+  changes: 0` (proving nothing rode along with the sweep), and that no
+  `meta.version` moved.

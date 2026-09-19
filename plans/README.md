@@ -18,6 +18,7 @@ test runner (plan 003 adds one) and no contract check (plan 004 adds one).
 | 003 | [Unit-test the `lib` items that ship into consumers' projects](003-registry-item-tests.md) | P1 | M | LOW | — | DONE — branch `test/registry-lib-items` (1 revision round) |
 | 004 | [Make the repo able to reproduce its own Cloudflare deployment](004-deploy-config-parity.md) | P2 | M | MED | — | DONE — branch `chore/deploy-config-parity` |
 | 005 | [Prerender the docs pages to static HTML, without breaking the shadcn root contract](005-static-prerendering.md) | P2 | M | MED | 004 | DONE — branch `perf/static-prerendering` |
+| 006 | [Clear the Prettier drift and stop it recurring](006-prettier-drift.md) | P2 | S | MED | — | DONE — branch `style/prettier-drift` (1 revision round) |
 
 Status values: TODO | IN PROGRESS | DONE | BLOCKED (with one-line reason) |
 REJECTED (with one-line rationale).
@@ -66,11 +67,9 @@ Measured read-only on 2026-09-18 and relied on by plans 004 and 005:
   most of `src/registry/tanfust/**`. CI runs `pnpm lint` but never `pnpm check`,
   which is why it went unnoticed. Plans 002–005 were amended with a formatting
   caveat telling executors to scope Prettier to their in-scope files.
-  **Not yet planned**: a one-shot `pnpm format` commit plus a `pnpm check` step
-  in CI. Worth doing, but it must land on its own so the noise does not hide a
-  real change — and note `src/registry/tanfust/**` files are copied verbatim
-  into consumers' projects, so reformatting them is a (cosmetic) change to
-  shipped output.
+  **Resolved by plan 006** (merged): `.prettierignore` now covers the generated
+  files, the 19 drifted files are formatted, `public/r/*.json` was regenerated
+  from the reformatted sources, and CI runs `pnpm check`.
 
 ## All five executed — 2026-09-19
 
@@ -121,6 +120,34 @@ Two defects in the plans themselves were found by executors and fixed here:
 Note the amended plan files are **uncommitted**, so executor worktrees still read
 the original committed text — the corrections are passed in the dispatch prompt
 instead.
+
+## Plan 006 — a third plan defect, and what it taught
+
+Plan 006's first executor **stopped**, correctly, on a verification I had
+written that was unsatisfiable: `git diff --ignore-all-space --stat` can never
+print nothing after a Prettier sweep, because Prettier *reflows line
+boundaries* and `--ignore-all-space` only collapses whitespace *within* a line.
+
+Investigating turned up four semantically neutral transformations Prettier makes
+here, not the one the executor reported:
+
+1. line reflow (80 columns);
+2. trailing commas (`trailingComma: "es5"`);
+3. **added grouping parentheses** around wrapped expressions — e.g.
+   `return (\n  a || b\n)` in `src/start.ts`; this affected 8 files and was not
+   reported;
+4. Tailwind class reordering by `prettier-plugin-tailwindcss` — safe, because
+   class order in a `className` string does not affect the generated CSS.
+
+The replacement check asserts the property that actually matters: **every
+changed file is exactly `prettier(previous content)`**, so nothing rode along
+with the sweep. It was validated as non-vacuous by injecting a semantic change
+(`separator = "-"` → `"~"` in `slugify.ts`), re-running Prettier, and confirming
+the check still flagged the file.
+
+Recorded because the lesson generalises: for a formatting sweep, "prove it is
+whitespace-only" is the wrong assertion. "Prove it is exactly what the formatter
+produces" is the right one.
 
 ## Findings considered and rejected
 
