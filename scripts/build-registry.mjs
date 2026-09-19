@@ -9,15 +9,24 @@
  *
  * Runs before `vite dev` and `vite build` (see package.json scripts).
  */
+import { registrySchema } from "shadcn/schema"
 import { execFileSync } from "node:child_process"
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
-const shadcn = path.join(root, "node_modules", ".bin", process.platform === "win32" ? "shadcn.cmd" : "shadcn")
+const shadcn = path.join(
+  root,
+  "node_modules",
+  ".bin",
+  process.platform === "win32" ? "shadcn.cmd" : "shadcn"
+)
 const outDir = path.join(root, "public", "r")
-const baseUrl = (process.env.VITE_BASE_URL ?? "https://ui.tanfust.com").replace(/\/$/, "")
+const baseUrl = (process.env.VITE_BASE_URL ?? "https://ui.tanfust.com").replace(
+  /\/$/,
+  ""
+)
 
 function run(args) {
   execFileSync(shadcn, args, { cwd: root, stdio: "inherit" })
@@ -26,9 +35,18 @@ function run(args) {
 step("validate", () => run(["registry", "validate"]))
 step("build", () => run(["build", "--output", outDir]))
 
-const catalog = JSON.parse(readFileSync(path.join(outDir, "registry.json"), "utf8"))
+const catalog = JSON.parse(
+  readFileSync(path.join(outDir, "registry.json"), "utf8")
+)
+
+// The docs site consumes this file as trusted, typed data (src/lib/registry.ts)
+// rather than re-parsing it in the browser. This is where that trust is earned.
+step("validate built catalog", () => registrySchema.parse(catalog))
+
 const items = catalog.items ?? []
-const publicItems = items.filter((i) => i.type !== "registry:example" && i.type !== "registry:internal")
+const publicItems = items.filter(
+  (i) => i.type !== "registry:example" && i.type !== "registry:internal"
+)
 const examples = items.filter((i) => i.type === "registry:example")
 
 step("src/__registry__/index.tsx", () => {
@@ -38,7 +56,8 @@ step("src/__registry__/index.tsx", () => {
     .map((item) => {
       const file = item.files?.[0]?.path
       if (!file) return null
-      const modulePath = "@/" + file.replace(/^src\//, "").replace(/\.(tsx|ts|jsx|js)$/, "")
+      const modulePath =
+        "@/" + file.replace(/^src\//, "").replace(/\.(tsx|ts|jsx|js)$/, "")
       return `  "${item.name}": {
     name: "${item.name}",
     file: "${file}",
@@ -93,14 +112,18 @@ step("public/llms.txt", () => {
   }
   for (const item of publicItems) {
     const desc = item.description ? ` — ${item.description}` : ""
-    lines.push(`- [${item.name}](${baseUrl}/r/${item.name}.json) (${item.type})${desc}`)
+    lines.push(
+      `- [${item.name}](${baseUrl}/r/${item.name}.json) (${item.type})${desc}`
+    )
     lines.push(`  \`npx shadcn@latest add @tanfust/${item.name}\``)
   }
   lines.push("")
   writeFileSync(path.join(root, "public", "llms.txt"), lines.join("\n"))
 })
 
-console.log(`\n✔ registry built: ${publicItems.length} item(s), ${examples.length} example(s) → public/r`)
+console.log(
+  `\n✔ registry built: ${publicItems.length} item(s), ${examples.length} example(s) → public/r`
+)
 
 function step(name, fn) {
   console.log(`\n▸ ${name}`)
