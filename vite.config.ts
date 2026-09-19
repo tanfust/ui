@@ -12,7 +12,27 @@ import tailwindcss from "@tailwindcss/vite"
 // under /r, llms.txt, _headers) are emitted by every target.
 const config = defineConfig({
   resolve: { tsconfigPaths: true },
-  plugins: [devtools(), tailwindcss(), tanstackStart(), viteReact(), nitro()],
+  plugins: [
+    devtools(),
+    tailwindcss(),
+    tanstackStart({
+      prerender: {
+        enabled: true,
+        // Item pages are discovered by crawling the catalog links on `/docs`
+        // and the home page, so no route list is hand-maintained here —
+        // AGENTS.md: the site never hand-maintains item lists.
+        crawlLinks: true,
+        failOnError: true,
+        // `/` stays Worker-rendered, deliberately. Cloudflare serves a matching
+        // static asset WITHOUT invoking Worker code, so an emitted /index.html
+        // would shadow the shadcn content negotiation in src/start.ts and break
+        // `npx shadcn@latest add https://ui.tanfust.com`. See docs/deployment.md.
+        filter: ({ path }) => path !== "/",
+      },
+    }),
+    viteReact(),
+    nitro(),
+  ],
 })
 
 export default config

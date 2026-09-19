@@ -91,12 +91,44 @@ under `public/` **without invoking the Worker**, unless
 <https://developers.cloudflare.com/workers/static-assets>. `GET /` currently
 reaches the Worker (and therefore `shadcnRootNegotiation`, and therefore
 `npx shadcn@latest add https://ui.tanfust.com`) only because no `/index.html`
-asset exists in `public/` today. Anything that creates one — static
-prerendering above all, see `plans/005-static-prerendering.md` — would cause
-Cloudflare to answer `/` from that static file instead, silently bypassing the
-content negotiation, **unless** `assets.run_worker_first` is configured to
-include `/`. Given the open question above, that configuration is unverified.
-Plan 005 should not proceed until it is.
+asset exists in `public/`. Anything that creates one would cause Cloudflare to
+answer `/` from that static file instead, silently bypassing the content
+negotiation, **unless** `assets.run_worker_first` is configured to include
+`/`. Given the open question above, that configuration is unverified, which is
+why `plans/005-static-prerendering.md` (below) prerenders every docs route
+**except** `/`.
+
+## Static prerendering (plan 005)
+
+`/docs` and every item page under `/docs/<category>/<item>` are prerendered
+at build time (`tanstackStart({ prerender: { enabled: true, crawlLinks: true,
+failOnError: true, filter } })` in `vite.config.ts`) and shipped as static
+HTML in `.output/public`. Cloudflare then serves those 14 pages as static
+assets — edge-cached, no Worker invocation — instead of rendering them
+per-request as before.
+
+`/` is **deliberately excluded** via the `filter` option (`path !== "/"`). It
+is still crawled for the links it contains, so item pages are discovered
+without a hand-maintained route list, but it is never written to
+`.output/public/index.html`. The reason is Invariant 2 above: a matching
+static asset shadows the Worker, and an emitted `/index.html` would silently
+break the shadcn content negotiation in `src/start.ts` with no error anywhere
+— `npx shadcn@latest add https://ui.tanfust.com` would just start receiving
+HTML. Because `run_worker_first` is unverified (see the open question above),
+excluding `/` is what lets this plan ship with zero dependency on out-of-repo
+Cloudflare config.
+
+Prerendering `/` as well is a possible follow-up, not a to-do: it would need
+`assets.run_worker_first` to include `/` in the out-of-repo Wrangler
+configuration, confirmed by whoever holds that config. Even then, `_headers`
+does not apply to Worker responses (Invariant 1), so the inline
+`Cache-Control` that `src/start.ts` already sets on the JSON response would
+remain the only way that route carries a cache header — prerendering `/`
+would not change that part.
+
+`pnpm contract` is the check guarding all of this — it asserts the shadcn
+negotiation still answers correctly at `/` and would fail if a root
+`index.html` ever shadowed it.
 
 ## How to check it
 
